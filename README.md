@@ -1,1 +1,2 @@
 # leetcode_playground
+This is a repo for my daily leetcode practice where in addition to practicing my whiteboard problem solving skills, I try to improve how I communicate my thought process out loud.
