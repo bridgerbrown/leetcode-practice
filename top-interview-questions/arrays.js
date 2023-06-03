@@ -238,6 +238,23 @@ Thus, the result should be [1,2,4].
 */
 
 var plusOne = function(digits){
-    let added = parsInt(digits.join('')) + 1
-    return added.split('')
+  const num = BigInt(digits.join('')) + 1n;
+  const string = num.toString();
+
+  let arr = [];
+
+  for(let i = 0; i < string.length; i++){
+    const toNum = BigInt(string[i]);
+    arr.push(toNum);
+  }
+  return arr;
 };
+
+/* 
+
+So first I would solve this by converting the array of numbers to an integer
+using .join(). I originally had parseInt() but found out BigInt is faster.
+We convert this to a string and then can iterate through each character of
+that string with a for loop, pushing each digit to a new array.
+
+*/
