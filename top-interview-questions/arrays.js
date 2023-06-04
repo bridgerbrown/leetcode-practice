@@ -13,14 +13,14 @@ Then buy on day 4 (price = 3) and sell on day 5 (price = 6), profit = 6-3 = 3.
 Total profit is 4 + 3 = 7.
 */
 
-var maxProfit = function(prices) {
-    let profit = 0;
-    for(let i = 1; i < prices.length; i++){
-        if (prices[i] > prices[i - 1]){
-            profit += prices[i] - prices[i - 1];
-        }
+var maxProfit = function (prices) {
+  let profit = 0;
+  for (let i = 1; i < prices.length; i++) {
+    if (prices[i] > prices[i - 1]) {
+      profit += prices[i] - prices[i - 1];
     }
-    return profit
+  }
+  return profit;
 };
 
 /*
@@ -41,15 +41,15 @@ Change the array nums such that the first k elements of nums contain the unique 
 Return k.
 */
 
-var removeDuplicates = function(nums) {
-    let count = 1;
-    for(let i = 1; i < nums.length; i++){
-        if(nums[i - 1] != nums[i]){
-            nums[count] = nums[i]; 
-            count++
-        }
+var removeDuplicates = function (nums) {
+  let count = 1;
+  for (let i = 1; i < nums.length; i++) {
+    if (nums[i - 1] != nums[i]) {
+      nums[count] = nums[i];
+      count++;
     }
-    return count;
+  }
+  return count;
 };
 
 /*
@@ -78,24 +78,24 @@ rotate 2 steps to the right: [6,7,1,2,3,4,5]
 rotate 3 steps to the right: [5,6,7,1,2,3,4]
 */
 
-var rotate = function(nums, k) {
-    k %= nums.length 
-     
-    let reverse = function(i, j){
-     while(i < j){
-         let temp = nums[i]
-         nums[i] = nums[j]
-         nums[j] = temp
-         i++
-         j--
-     }
-    }
-    reverse(0, nums.length - 1);
-    reverse(0, k - 1)
-    reverse(k, nums.length - 1)
- };
+var rotate = function (nums, k) {
+  k %= nums.length;
 
-console.log(rotate([1,2,3,4,5], 3))
+  let reverse = function (i, j) {
+    while (i < j) {
+      let temp = nums[i];
+      nums[i] = nums[j];
+      nums[j] = temp;
+      i++;
+      j--;
+    }
+  };
+  reverse(0, nums.length - 1);
+  reverse(0, k - 1);
+  reverse(k, nums.length - 1);
+};
+
+console.log(rotate([1, 2, 3, 4, 5], 3));
 
 /*
 So there is a simple way to solve this using unshift and pop with a while loop, but that ends
@@ -116,15 +116,15 @@ Input: nums = [1,2,3,1]
 Output: true
 */
 
-var containsDuplicate = function(nums) {
-    nums.sort()
-    let duplicates = false
-    for (let i = 0; i < nums.length; i++){
-        if(nums[i] == nums[i - 1]){
-            duplicates = true
-        }
+var containsDuplicate = function (nums) {
+  nums.sort();
+  let duplicates = false;
+  for (let i = 0; i < nums.length; i++) {
+    if (nums[i] == nums[i - 1]) {
+      duplicates = true;
     }
-    return duplicates
+  }
+  return duplicates;
 };
 
 /* 
@@ -150,12 +150,12 @@ Input: nums = [2,2,1]
 Output: 1
 */
 
-var singleNumber = function(nums){
-    let singular = 0
-    for (let i = 0; i < nums.length; i++){
-        singular ^= nums[i]
-    }
-    return singular
+var singleNumber = function (nums) {
+  let singular = 0;
+  for (let i = 0; i < nums.length; i++) {
+    singular ^= nums[i];
+  }
+  return singular;
 };
 
 /* 
@@ -182,32 +182,32 @@ Input: nums1 = [1,2,2,1], nums2 = [2,2]
 Output: [2,2]
 */
 
-var intersect = function(nums1, nums2){
-    let intersection = [];
-    for (let i = 0; i < nums1.length; i++){
-        nums2.includes(nums1[i]) ? intersection.push(nums1[i]) : undefined
-    }
-    return intersection
+var intersect = function (nums1, nums2) {
+  let intersection = [];
+  for (let i = 0; i < nums1.length; i++) {
+    nums2.includes(nums1[i]) ? intersection.push(nums1[i]) : undefined;
+  }
+  return intersection;
 };
 
-    /* Faster solution */
-    var intersect = function(nums1, nums2){
-        const frequency = {};
-        const intersection = [];
+/* Faster solution */
+var intersect = function (nums1, nums2) {
+  const frequency = {};
+  const intersection = [];
 
-        for (let num of nums1){
-            frequency[num] = (frequency[num] || 0) + 1;
-        }
-    
-        for (let num of nums2){
-            if (frequency[num] > 0){
-                intersection.push(num);
-                frequency[num]--;
-            }
-        }
-        
-        return intersection;
-    };
+  for (let num of nums1) {
+    frequency[num] = (frequency[num] || 0) + 1;
+  }
+
+  for (let num of nums2) {
+    if (frequency[num] > 0) {
+      intersection.push(num);
+      frequency[num]--;
+    }
+  }
+
+  return intersection;
+};
 
 /* 
 So my first solution used a for loop and the includes method to compare the two arrays
@@ -237,13 +237,13 @@ Incrementing by one gives 123 + 1 = 124.
 Thus, the result should be [1,2,4].
 */
 
-var plusOne = function(digits){
-  const num = BigInt(digits.join('')) + 1n;
+var plusOne = function (digits) {
+  const num = BigInt(digits.join("")) + 1n;
   const string = num.toString();
 
   let arr = [];
 
-  for(let i = 0; i < string.length; i++){
+  for (let i = 0; i < string.length; i++) {
     const toNum = BigInt(string[i]);
     arr.push(toNum);
   }
@@ -258,3 +258,27 @@ We convert this to a string and then can iterate through each character of
 that string with a for loop, pushing each digit to a new array.
 
 */
+
+/* 
+#8: Move Zeroes
+
+Given an integer array nums, move all 0's to the end of it while maintaining the relative order of the non-zero elements.
+
+Note that you must do this in-place without making a copy of the array.
+
+ 
+
+Example 1:
+
+Input: nums = [0,1,0,3,12]
+Output: [1,3,12,0,0]
+*/
+
+var moveZeroes = function (nums) {
+  for (let i = 0; i < nums.length; i++) {
+    if (nums[i] == 0) {
+      nums.push(0);
+      nums.splice(i, 1);
+    }
+  }
+};
