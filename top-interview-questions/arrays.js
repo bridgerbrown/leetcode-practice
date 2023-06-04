@@ -275,10 +275,58 @@ Output: [1,3,12,0,0]
 */
 
 var moveZeroes = function (nums) {
+  let diff = 0;
   for (let i = 0; i < nums.length; i++) {
-    if (nums[i] == 0) {
-      nums.push(0);
-      nums.splice(i, 1);
+    if (nums[i] === 0) {
+      diff++;
+    } else {
+      [nums[i - diff], nums[i]] = [nums[i], nums[i - diff]];
     }
   }
 };
+
+/*
+My original answer for this only passed half the tests, but after delving into other peoples answers
+I saw how I needed to rethink the shifting of the array elements.
+We are being very performance efficient by redeclaring the array index of the element we are on with the
+next.
+*/
+
+/*
+#9: "Two Sum"
+
+Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.
+
+You may assume that each input would have exactly one solution, and you may not use the same element twice.
+
+You can return the answer in any order.
+
+ 
+
+Example 1:
+
+Input: nums = [2,7,11,15], target = 9
+Output: [0,1]
+Explanation: Because nums[0] + nums[1] == 9, we return [0, 1].
+
+*/
+
+var twoSum = function (nums, target) {
+  const differences = {};
+
+  for (let i = 0; i < nums.length; i++) {
+    const diff = target - nums[i];
+
+    if (diff in differences) return [i, differences[diff]];
+
+    differences[diff[i]] = i;
+  }
+};
+
+/*
+
+So first we want to create a 'differences' object to store key/value pairs of the value and its index in the array.
+We iterrate through the nums array, and if the current difference is found in our object, we return the indices. 
+If not, then we continue iterating until all elements have been checked.
+
+*/
