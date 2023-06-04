@@ -319,7 +319,7 @@ var twoSum = function (nums, target) {
 
     if (diff in differences) return [i, differences[diff]];
 
-    differences[diff[i]] = i;
+    differences[nums[i]] = i;
   }
 };
 
@@ -330,3 +330,23 @@ We iterrate through the nums array, and if the current difference is found in ou
 If not, then we continue iterating until all elements have been checked.
 
 */
+
+/*
+#10: "Valid Sudoku"
+
+Determine if a 9 x 9 Sudoku board is valid. Only the filled cells need to be validated according to the following rules:
+
+Each row must contain the digits 1-9 without repetition.
+Each column must contain the digits 1-9 without repetition.
+Each of the nine 3 x 3 sub-boxes of the grid must contain the digits 1-9 without repetition.
+*/
+
+var isValidSudoku = function (board) {
+  let verticals = [[], [], [], [], [], [], [], [], []];
+  for (let i = 0; i < board.length; i++) {
+    if (/(\d)\1+?/) {
+      return false;
+    }
+    verticals[i].push(board[i][i]);
+  }
+};
