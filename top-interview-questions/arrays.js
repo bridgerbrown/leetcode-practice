@@ -342,11 +342,82 @@ Each of the nine 3 x 3 sub-boxes of the grid must contain the digits 1-9 without
 */
 
 var isValidSudoku = function (board) {
-  let verticals = [[], [], [], [], [], [], [], [], []];
+  const set = new Set();
+
   for (let i = 0; i < board.length; i++) {
-    if (/(\d)\1+?/) {
-      return false;
+    for (let j = 0; j < board[0].length; j++) {
+      const value = board[i][j];
+
+      if (value !== ".") {
+        const row = `${value} at row ${i}`;
+        const column = `${value} at col ${j}`;
+        const box = `${value} at box ${Math.floor(i / 3)}, ${Math.floor(
+          j / 3
+        )}`;
+
+        if (set.has(row) || set.has(column) || set.has(box)) {
+          return false;
+        } else {
+          set.add(row);
+          set.add(column);
+          set.add(box);
+        }
+      }
     }
-    verticals[i].push(board[i][i]);
+  }
+  return true;
+};
+
+/* 
+
+I had to get some help with this one, but it turned out simpler than I thought.
+The trick is to use a Set(), since Sets can only hold unique values.
+We initialize a set, then use two for-loops to check the row then the column for each value of that row.
+The value parameter will change per iteration, and check if it is in each i and j, row or column, and even
+the box by splitting up the row and colummns by dividing by 3.
+If they don't exist in the set, they are added. 
+
+It's really not that complicated, it's just about setting up the right way of logging these rows, columns, and boxes,
+so that we can check if they exist or not.
+
+*/
+
+/*
+#11: "Rotate Image"
+
+You are given an n x n 2D matrix representing an image, rotate the image by 90 degrees (clockwise).
+
+You have to rotate the image in-place, which means you have to modify the input 2D matrix directly. DO NOT allocate another 2D matrix and do the rotation.
+
+ 
+
+Example 1:
+Input: matrix = [[1,2,3],[4,5,6],[7,8,9]]
+Output: [[7,4,1],[8,5,2],[9,6,3]]
+*/
+
+var rotate = function (matrix) {
+  for (let i = 0; i < matrix.length; i++) {
+    for (let j = i; j < matrix[0].length; j++) {
+      let temp = matrix[i][j];
+      matrix[i][j] = matrix[j][i];
+      matrix[j][i] = temp;
+    }
+  }
+
+  for (let i = 0; i < matrix.length; i++) {
+    for (let j = 0; j < matrix[0].length / 2; j++) {
+      let temp = matrix[i][j];
+      matrix[i][j] = matrix[i][matrix[0].length - j - 1];
+      matrix[i][matrix[0].length - j - 1] = temp;
+    }
   }
 };
+
+/*
+
+This one's quite complex. So first of all, it's pretty easy to see the pattern visually to where the rows and 
+cols will need to switch. But the method can be done in a few different ways. The first for-loop will swap the 
+rows with the columns basically, then the second will just reverse all of the rows.
+
+*/
