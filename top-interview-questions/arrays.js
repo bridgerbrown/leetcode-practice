@@ -23,6 +23,16 @@ var maxProfit = function (prices) {
   return profit;
 };
 
+  var maxProfit = function(prices){
+    let profit = 0;
+    for (let i = 0; i < prices.length; i++){
+      if (prices[i] > prices[i - 1]){
+        profit += prices[i] - prices[i - 1];
+      }
+    }
+    return profit;
+  }
+
 /*
 A simple method to tackling this array function is to use a for loop to run through the array
 and compare each item to the previous item, and if it is greater than the previous item, you 
@@ -51,6 +61,17 @@ var removeDuplicates = function (nums) {
   }
   return count;
 };
+
+  var removeDuplicates = function(nums){
+    let count = 1;
+    for(let i = 1; i < nums.length; i++){
+      if(nums[i - 1] != nums[i]){
+      nums[count] = nums[i];
+      count++
+      }
+    }
+  return count;
+  };
 
 /*
 In order to change the original nums array, I am going to use a for-loop.
@@ -97,6 +118,23 @@ var rotate = function (nums, k) {
 
 console.log(rotate([1, 2, 3, 4, 5], 3));
 
+  var rotate = function(nums, k){
+    k %= nums.length;
+
+    let reverse = function(i, j){
+      while(i < j){
+        let temp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = temp;
+        i++;
+        j--;
+      }
+    };
+    reverse(0, nums.length - 1);
+    reverse(0, k - 1);
+    reverse(k, nums.length - 1);
+  };
+
 /*
 So there is a simple way to solve this using unshift and pop with a while loop, but that ends
 up being an inefficient slow solution, so a great way to solve this is creating a reverse method.
@@ -126,6 +164,17 @@ var containsDuplicate = function (nums) {
   }
   return duplicates;
 };
+
+var containsDuplicate = function(nums){
+  nums.sort();
+  let duplicates == false;
+  for(let i = 0; i < nums.length; i++){
+    if(nums[i] == nums[i - 1]){
+      duplicates = true;
+    }
+  }
+  return duplicates;
+}
 
 /* 
 
@@ -157,6 +206,14 @@ var singleNumber = function (nums) {
   }
   return singular;
 };
+
+  var singleNumber = function(nums){
+    let singular = 0;
+    for(let i = 0; i < nums.length; i++){
+      singular ^= nums[i];
+    }
+    return singular;
+  }
 
 /* 
 
@@ -209,6 +266,24 @@ var intersect = function (nums1, nums2) {
   return intersection;
 };
 
+  var intersect = function(nums1, nums2){
+    const frequency = {};
+    const intersection = [];
+
+    for (let num of nums1){
+      frequency[num] = (frequency[num] || 0) + 1;
+    }
+
+    for (let num of nums2){
+      if(frequency[num] > 0){
+        intersection.push(num);
+        frequency[num]--;
+      }
+    }
+
+    return intersection;
+  }
+
 /* 
 So my first solution used a for loop and the includes method to compare the two arrays
 integers and push to an array variable when they intersect.
@@ -250,6 +325,19 @@ var plusOne = function (digits) {
   return arr;
 };
 
+  var plusOne = function(digits){
+    const num = BigInt(digits.join("")) + 1n;
+    const string = num.toString();
+
+    let arr = [];
+
+    for (let i = 0; i < string.length; i++){
+      const toNum = BigInt(string[i]);
+      arr.push(toNum);
+    }
+    return arr;
+  }
+
 /* 
 
 So first I would solve this by converting the array of numbers to an integer
@@ -284,6 +372,17 @@ var moveZeroes = function (nums) {
     }
   }
 };
+
+  var moveZeroes = function(nums){
+    let diff = 0;
+    for(let i = 0; i < nums.length; i++){
+      if(nums[i] === 0){
+        diff++;
+      } else {
+        [nums[i - diff], nums[i]] = [nums[i], nums[i - diff]];
+      }
+    }
+  }
 
 /*
 My original answer for this only passed half the tests, but after delving into other peoples answers
@@ -322,6 +421,18 @@ var twoSum = function (nums, target) {
     differences[nums[i]] = i;
   }
 };
+
+  var twoSum = function(nums, target){
+    const differences = {};
+
+    for(let i = 0; i < nums.length; i++){
+      const diff = target - nums[i];
+
+      if(diff in differences) return [i, differences[diff]];
+
+      differences[nums[i]] = i;
+    }
+  }
 
 /*
 
@@ -368,6 +479,31 @@ var isValidSudoku = function (board) {
   return true;
 };
 
+  var isValidSudoku = function(board){
+    const set = new Set();
+
+    for(let i = 0; i < board.length; i++){
+      for(let j = 0; j < board[0].length; j++){
+        const value = board[i][j];
+
+        if(value !== "."){
+          const row = `${value} at row ${i}`;
+          const column = `${value} at col ${j}`;
+          const box = `${value} at box ${Math.floor(i / 3)}, ${Math.floor(j / 3)}`;
+          
+          if (set.has(row) || set.has(column) || set.has(box)){
+            return false;
+          } else {
+            set.add(row);
+            set.add(column);
+            set.add(box);
+          }
+        }
+      }
+    }
+    return true;
+  };
+
 /* 
 
 I had to get some help with this one, but it turned out simpler than I thought.
@@ -413,6 +549,22 @@ var rotate = function (matrix) {
     }
   }
 };
+
+  var rotate = function(matrix){
+    for(let i = 0; i < matrix.length; i++){
+      for(let j = i; j < matrix[0].length; j++){
+        let temp = matrix[i][j];
+        matrix[i][j] = matrix[j][i];
+        matrix[j][i] = temp;
+      }
+    }
+
+    for(let i = 0; i < matrix.length; i++){
+      for(let j = i; j < matrix[0].length; j++){
+        let temp = matrix[i][j]
+      }
+    }
+  }
 
 /*
 
