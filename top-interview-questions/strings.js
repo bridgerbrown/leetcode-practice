@@ -98,3 +98,45 @@ var firstUniqChar = function (s) {
 I learned the impact of indexOf and charAt when trying to solve this problem. 
 
 */
+
+/*
+#4: "Valid Anagram"
+Given two strings s and t, return true if t is an anagram of s, and false otherwise.
+
+An Anagram is a word or phrase formed by rearranging the letters of a different word or phrase, typically using all the original letters exactly once.
+
+ 
+
+Example 1:
+
+Input: s = "anagram", t = "nagaram"
+Output: true
+*/
+
+var isAnagram = function (s, t) {
+  return s.split("").sort().join("") === t.split("").sort().join("");
+};
+
+/*
+#5: "Valid Palindrom"
+
+A phrase is a palindrome if, after converting all uppercase letters into lowercase letters and removing all non-alphanumeric characters, it reads the same forward and backward. Alphanumeric characters include letters and numbers.
+
+Given a string s, return true if it is a palindrome, or false otherwise.
+
+ 
+
+Example 1:
+
+Input: s = "A man, a plan, a canal: Panama"
+Output: true
+Explanation: "amanaplanacanalpanama" is a palindrome.
+*/
+
+var isPalindrome = function (s) {
+  s = s.toLowerCase().replace(/[^a-z0-9]/gi, "");
+  for (let i = 0, j = s.length - 1; i <= j; i++, j--) {
+    if (s.charAt(i) !== s.charAt(j)) return false;
+  }
+  return true;
+};
