@@ -155,14 +155,56 @@ var isPalindrome = function(head){
     else fast = fast.next, slow = slow.next
   return true
 }
-
+ 
 /*
 Initialize two pointers, slow and fast, to the head of the linked list. Also, initialize prev and temp variables.
-Use the fast pointer to iterate through the linked list. The fast pointer moves two steps at a time, while the slow pointer moves one step at a time. This way, when the fast pointer reaches the end of the list, the slow pointer will be at the middle node (or the middle-left node if the list has an odd length). This step helps us split the list into two halves.
+Use the fast pointer to iterate through the linked list. The fast pointer moves two steps at a time, while the slow pointer moves one step at a time. 
+This way, when the fast pointer reaches the end of the list, the slow pointer will be at the middle node (or the middle-left node if the list has an odd length). 
+This step helps us split the list into two halves.
 Set prev to the current position of the slow pointer. This will help us later in reversing the second half of the linked list.
-Move the slow pointer one step forward and disconnect the previous middle node from the rest of the list by setting prev.next to null. This splits the list into two halves: the first half is from the head to the middle node, and the second half is from the middle+1 node to the end.
-Reverse the second half of the linked list. Use three pointers (prev, slow, and temp) to reverse the direction of the pointers. Iterate through the second half by moving slow to its next node, temp to the next of slow, and set slow.next to prev. This step effectively reverses the direction of the pointers in the second half.
+Move the slow pointer one step forward and disconnect the previous middle node from the rest of the list by setting prev.next to null. 
+This splits the list into two halves: the first half is from the head to the middle node, and the second half is from the middle+1 node to the end.
+Reverse the second half of the linked list. Use three pointers (prev, slow, and temp) to reverse the direction of the pointers. 
+Iterate through the second half by moving slow to its next node, temp to the next of slow, and set slow.next to prev. 
+This step effectively reverses the direction of the pointers in the second half.
 Reset fast to the head of the linked list, and set slow to the last node of the reversed second half (which is stored in prev).
-Iterate through both halves simultaneously using fast and slow pointers. Compare the values of the corresponding nodes in both halves. If any values are different, return false as it means the linked list is not a palindrome.
+Iterate through both halves simultaneously using fast and slow pointers. Compare the values of the corresponding nodes in both halves. 
+If any values are different, return false as it means the linked list is not a palindrome.
 If the iteration completes without finding any differences, return true as the linked list is a palindrome.
+*/
+
+/*
+#5: Linked List Cycle
+
+Given head, the head of a linked list, determine if the linked list has a cycle in it.
+
+There is a cycle in a linked list if there is some node in the list that can be reached again by continuously following the next pointer. Internally, pos is used to denote the index of the node that tail's next pointer is connected to. Note that pos is not passed as a parameter.
+
+Return true if there is a cycle in the linked list. Otherwise, return false.
+
+ 
+
+Example 1:
+
+
+Input: head = [3,2,0,-4], pos = 1
+Output: true
+Explanation: There is a cycle in the linked list, where the tail connects to the 1st node (0-indexed).
+*/
+
+var hasCycle = function(head){
+  let fast = head;
+  while (fast && fast.next){
+    head = head.next;
+    fast = fast.next.next;
+    if (head === fast) return true;
+  }
+  return false;
+}
+
+/*
+
+Basically, this solution works because of how a faster pointer would catch up to a slower pointer
+if there's a circular linked list in it.
+
 */
