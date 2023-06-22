@@ -1,8 +1,9 @@
 /*
 #1:
 You are given an integer array prices where prices[i] is the price of a given stock on the ith day.
-
-On each day, you may decide to buy and/or sell the stock. You can only hold at most one share of the stock at any time. However, you can buy it then immediately sell it on the same day.
+On each day, you may decide to buy and/or sell the stock. 
+You can only hold at most one share of the stock at any time. 
+However, you can buy it then immediately sell it on the same day.
 
 Find and return the maximum profit you can achieve.
 
@@ -145,7 +146,8 @@ the array.
 /*
 #4: "Contains Duplicate"
 
-Given an integer array nums, return true if any value appears at least twice in the array, and return false if every element is distinct.
+Given an integer array nums, return true if any value appears at least twice in the array, 
+and return false if every element is distinct.
 
 
 Example 1:
@@ -230,7 +232,9 @@ XORing a number with itself results in 0, and XORing 0 with any number gives the
 /*
 #6: "Intersection of Two Arrays II"
 
-Given two integer arrays nums1 and nums2, return an array of their intersection. Each element in the result must appear as many times as it shows in both arrays and you may return the result in any order.
+Given two integer arrays nums1 and nums2, return an array of their intersection. 
+Each element in the result must appear as many times as it shows in both arrays and
+you may return the result in any order.
 
 
 Example 1:
@@ -299,7 +303,10 @@ allowing us to push the proper amount of integer duplicates.
 /* 
 #7: "Plus One"
 
-You are given a large integer represented as an integer array digits, where each digits[i] is the ith digit of the integer. The digits are ordered from most significant to least significant in left-to-right order. The large integer does not contain any leading 0's.
+You are given a large integer represented as an integer array digits, 
+where each digits[i] is the ith digit of the integer. 
+The digits are ordered from most significant to least significant in left-to-right order. 
+The large integer does not contain any leading 0's.
 Increment the large integer by one and return the resulting array of digits.
 
 
@@ -350,11 +357,11 @@ that string with a for loop, pushing each digit to a new array.
 /* 
 #8: Move Zeroes
 
-Given an integer array nums, move all 0's to the end of it while maintaining the relative order of the non-zero elements.
+Given an integer array nums, move all 0's to the end of it while maintaining
+the relative order of the non-zero elements.
 
 Note that you must do this in-place without making a copy of the array.
 
- 
 
 Example 1:
 
@@ -394,9 +401,11 @@ next.
 /*
 #9: "Two Sum"
 
-Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.
+Given an array of integers nums and an integer target, 
+return indices of the two numbers such that they add up to target.
 
-You may assume that each input would have exactly one solution, and you may not use the same element twice.
+You may assume that each input would have exactly one solution, 
+and you may not use the same element twice.
 
 You can return the answer in any order.
 
