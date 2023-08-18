@@ -81,3 +81,25 @@ var levelOrder = function(root) {
 
   return results;
 };
+
+/*
+#5: Convert Sorted Array to Binary Search Tree
+
+Given an integer array nums where the elements are sorted in ascending order, convert it to a height-balanced binary search tree.
+
+Input: nums = [-10,-3,0,5,9]
+Output: [0,-3,9,-10,null,5]
+Explanation: [0,-10,5,null,-3,null,9] is also accepted
+*/
+
+var sortedArrayToBST = function(nums) {
+  function BST(left, right) {
+    if (left > right) return null;
+    const mid = Math.floor((left + right) / 2);
+    const current = new TreeNode(nums[mid]);
+    current.left = BST(left, mid - 1);
+    current.right = BST(mid + 1, right);
+    return current;
+  };
+  return BST(0, nums.length - 1);
+};
