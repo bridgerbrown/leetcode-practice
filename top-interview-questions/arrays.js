@@ -146,7 +146,6 @@ the array.
 Given an integer array nums, return true if any value appears at least twice in the array, 
 and return false if every element is distinct.
 
-
 Example 1:
 
 Input: nums = [1,2,3,1]
@@ -162,35 +161,29 @@ var containsDuplicate = function (nums) {
     }
   }
   return duplicates;
-};
+}; // O(n log n) time, O(1) space (Brute Force)
 
 var containsDuplicate = function(nums){
-  nums.sort();
-  let duplicates = false;
-  for(let i = 0; i < nums.length; i++){
-    if(nums[i] == nums[i - 1]){
-      duplicates = true;
-    }
+  const numSet = new Set();
+  for (const num of nums) {
+    if (numSet.has(num)) return true;
+    numSet.add(num);
   }
-  return duplicates;
-}
+  return false;
+}; // O(n) time, O(1) space
 
 /* 
-
 First we can sort the array of numbers so that if there are duplicates,
 they will be next to eachother. That will allow us to run through the array
 with a for-loop and check if any duplicates are next to eachother by comparing
 the current array item with the previous item.
-
 */
 
 /*
 #5: "Single Number"
 
 Given a non-empty array of integers nums, every element appears twice except for one. Find that single one.
-
 You must implement a solution with a linear runtime complexity and use only constant extra space.
-
 
 Example 1:
 
@@ -206,13 +199,19 @@ var singleNumber = function (nums) {
   return singular;
 };
 
-  var singleNumber = function(nums){
-    let singular = 0;
-    for(let i = 0; i < nums.length; i++){
-      singular ^= nums[i];
+var singleNumber = function(nums) {
+  let numSet = new Set();
+  
+  for (let num of nums) {
+    if (numSet.has(num)) {
+      numSet.delete(num);
+    } else {
+      numSet.add(num);
     }
-    return singular;
   }
+  
+  return numSet.values().next().value;
+};
 
 /* 
 
@@ -233,7 +232,6 @@ Given two integer arrays nums1 and nums2, return an array of their intersection.
 Each element in the result must appear as many times as it shows in both arrays and
 you may return the result in any order.
 
-
 Example 1:
 
 Input: nums1 = [1,2,2,1], nums2 = [2,2]
@@ -246,7 +244,7 @@ var intersect = function (nums1, nums2) {
     nums2.includes(nums1[i]) ? intersection.push(nums1[i]) : undefined;
   }
   return intersection;
-};
+}; // O(n * m) time
 
 /* Faster solution */
 var intersect = function (nums1, nums2) {
@@ -265,25 +263,7 @@ var intersect = function (nums1, nums2) {
   }
 
   return intersection;
-};
-
-  var intersect = function(nums1, nums2){
-    const frequency = {};
-    const intersection = [];
-
-    for (let num of nums1){
-      frequency[num] = (frequency[num] || 0) + 1;
-    }
-
-    for (let num of nums2){
-      if(frequency[num] > 0){
-        intersection.push(num);
-        frequency[num]--;
-      }
-    }
-
-    return intersection;
-  }
+}; // O(n + m)
 
 /* 
 So my first solution used a for loop and the includes method to compare the two arrays
@@ -306,7 +286,6 @@ The digits are ordered from most significant to least significant in left-to-rig
 The large integer does not contain any leading 0's.
 Increment the large integer by one and return the resulting array of digits.
 
-
 Example 1:
 
 Input: digits = [1,2,3]
@@ -327,20 +306,24 @@ var plusOne = function (digits) {
     arr.push(toNum);
   }
   return arr;
-};
+}; // O(n + k) where n is the length of digits and k is the length of the BigInt string represenation
+// O(k) space
 
-  var plusOne = function(digits){
-    const num = BigInt(digits.join("")) + 1n;
-    const string = num.toString();
+var plusOne = function (digits) {
+  let carry = 1;
 
-    let arr = [];
-
-    for (let i = 0; i < string.length; i++){
-      const toNum = BigInt(string[i]);
-      arr.push(toNum);
-    }
-    return arr;
+  for (let i = digits.length - 1; i >= 0; i--) {
+    digits[i] += carry;
+    carry = Math.floor(digits[i] / 10);
+    digits[i] %= 10;
   }
+
+  if (carry) {
+    digits.unshift(carry);
+  }
+
+  return digits;
+}; // O(n) time, O(1) space
 
 /* 
 
