@@ -315,7 +315,7 @@ var plusOne = function (digits) {
   for (let i = digits.length - 1; i >= 0; i--) {
     digits[i] += carry;
     carry = Math.floor(digits[i] / 10);
-    digits[i] %= 10;
+    digits[i] %= 10; // modulo operator to get the remainder. if carry added to 10, this would be 0.
   }
 
   if (carry) {
@@ -358,19 +358,8 @@ var moveZeroes = function (nums) {
       [nums[i - diff], nums[i]] = [nums[i], nums[i - diff]];
     }
   }
-};
-
-  var moveZeroes = function(nums){
-    let diff = 0;
-    for(let i = 0; i < nums.length; i++){
-      if(nums[i] === 0){
-        diff++;
-      } else {
-        [nums[i - diff], nums[i]] = [nums[i], nums[i - diff]];
-      }
-    }
-  }
-
+}; // O(n) time, O(1) space
+ 
 /*
 My original answer for this only passed half the tests, but after delving into other peoples answers
 I saw how I needed to rethink the shifting of the array elements.
@@ -383,13 +372,9 @@ next.
 
 Given an array of integers nums and an integer target, 
 return indices of the two numbers such that they add up to target.
-
 You may assume that each input would have exactly one solution, 
 and you may not use the same element twice.
-
 You can return the answer in any order.
-
- 
 
 Example 1:
 
@@ -401,27 +386,16 @@ Explanation: Because nums[0] + nums[1] == 9, we return [0, 1].
 
 var twoSum = function (nums, target) {
   const differences = {};
-
   for (let i = 0; i < nums.length; i++) {
     const diff = target - nums[i];
-
     if (diff in differences) return [i, differences[diff]];
-
     differences[nums[i]] = i;
   }
-};
-
-  var twoSum = function(nums, target){
-    const differences = {};
-
-    for(let i = 0; i < nums.length; i++){
-      const diff = target - nums[i];
-
-      if(diff in differences) return [i, differences[diff]];
-
-      differences[nums[i]] = i;
-    }
-  }
+}; // O(n) time, O(n) space
+// In the worst case scenario, when there are no repeating values in the nums array, 
+// every unique value will be stored in the differences map. 
+// This means that the size of the map will be proportional to the size of the input nums array, 
+// resulting in a space complexity of O(n).
 
 /*
 
@@ -466,32 +440,9 @@ var isValidSudoku = function (board) {
     }
   }
   return true;
-};
-
-  var isValidSudoku = function(board){
-    const set = new Set();
-
-    for(let i = 0; i < board.length; i++){
-      for(let j = 0; j < board[0].length; j++){
-        const value = board[i][j];
-
-        if(value !== "."){
-          const row = `${value} at row ${i}`;
-          const column = `${value} at col ${j}`;
-          const box = `${value} at box ${Math.floor(i / 3)}, ${Math.floor(j / 3)}`;
-          
-          if (set.has(row) || set.has(column) || set.has(box)){
-            return false;
-          } else {
-            set.add(row);
-            set.add(column);
-            set.add(box);
-          }
-        }
-      }
-    }
-    return true;
-  };
+}; // O(1) time, O(1) space
+//Since the number of iterations and the complexity of operations within each iteration are 
+//constant regardless of the size of the input, the overall time complexity is constant, O(1).
 
 /* 
 
@@ -511,10 +462,8 @@ so that we can check if they exist or not.
 #11: "Rotate Image"
 
 You are given an n x n 2D matrix representing an image, rotate the image by 90 degrees (clockwise).
-
-You have to rotate the image in-place, which means you have to modify the input 2D matrix directly. DO NOT allocate another 2D matrix and do the rotation.
-
- 
+You have to rotate the image in-place, which means you have to modify the input 2D matrix directly. 
+DO NOT allocate another 2D matrix and do the rotation.
 
 Example 1:
 Input: matrix = [[1,2,3],[4,5,6],[7,8,9]]
@@ -539,26 +488,8 @@ var rotate = function (matrix) {
   }
 };
 
-  var rotate = function(matrix){
-    for(let i = 0; i < matrix.length; i++){
-      for(let j = i; j < matrix[0].length; j++){
-        let temp = matrix[i][j];
-        matrix[i][j] = matrix[j][i];
-        matrix[j][i] = temp;
-      }
-    }
-
-    for(let i = 0; i < matrix.length; i++){
-      for(let j = i; j < matrix[0].length; j++){
-        let temp = matrix[i][j]
-      }
-    }
-  }
-
 /*
-
 This one's quite complex. So first of all, it's pretty easy to see the pattern visually to where the rows and 
 cols will need to switch. But the method can be done in a few different ways. The first for-loop will swap the 
 rows with the columns basically, then the second will just reverse all of the rows.
-
 */
