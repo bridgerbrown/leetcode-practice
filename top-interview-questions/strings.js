@@ -108,9 +108,7 @@ var isAnagram = function (s, t) {
 };
 
 var isAnagram = function (s, t) {
-  if (s.length !== t.length) {
-    return false;
-  }
+  if (s.length !== t.length) return false;
   const charCount = new Array(26).fill(0); 
   for (let i = 0; i < s.length; i++) {
     charCount[s.charCodeAt(i) - 97]++; // Converting to ascii number, then to 0-26 for alphabet
@@ -141,6 +139,7 @@ var isPalindrome = function (s) {
   }
   return true;
 }; // O(n) time, O(n) space (toLowerCase has to store the string)
+
 
 /*
 #6: "String to Integer (atoi)"
@@ -195,7 +194,7 @@ answer using the Math.min and Math.max, by having it return between the integers
 parseint will return 'NaN' if no number in input, but the or operator to zero handles that case.
 All in all, handling the whole problem with one line of code is awesome. 
 
-It does take 92ms, so it may not be the most memory efficient but still.
+It does take 92ms, so it may not be the most memory efficient, but still.
 */
 
 /*

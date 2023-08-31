@@ -38,6 +38,7 @@ no point in redefining its value. This also only works because we can assume tha
 deleted is not the last node in the list.
 */
 
+
 /*
 #2: Remove Nth Node From End of List
 
@@ -50,13 +51,14 @@ Output: [1,2,3,5]
 */
 
 var removeNthFromEnd = function(head, n){
-  let fast = head, slow = head
-  for (let i = 0; i < n; i++) fast = fast.next
-  if (!fast) return head.next
-  while (fast.next) fast = fast.next, slow = slow.next
-  slow.next = slow.next.next
-  return head
-}
+  let fast = head, slow = head;
+  for (let i = 0; i < n; i++) fast = fast.next;
+  if (!fast) return head.next;
+  while (fast.next) fast = fast.next, slow = slow.next;
+  slow.next = slow.next.next;
+  return head;
+}; // O(n) time, O(1) space
+
 
 /*
 #3: Reverse Linked List
@@ -81,25 +83,22 @@ var reverseList = function(head){
     cur = nxt; 
   }
   return prev;
-}
+} // O(n) time, O(1) space
 
 /*
-
 So here we want to basically run through the linked list, and redeclare each nodes cur.next
 to be prev. When we return the prev linked list, we will have a reversed ll because of where the
 next pointers are pointing. Its important that prev starts as null too, since the end of 
 the linked list will need to be null.
-
 */
+
+
 /*
 #4: Merge Two Sorted Lists
 
 You are given the heads of two sorted linked lists list1 and list2.
-
 Merge the two lists in a one sorted list. The list should be made by splicing together the nodes of the first two lists.
-
 Return the head of the merged linked list.
-
  
 Example 1:
 
@@ -122,9 +121,10 @@ var mergeTwoLists = function(list1, list2){
     merged = merged.next;
   }
 
-  merged.next = list1 || list2;
+  merged.next = list1 || list2; // For possible remaining nodes after traversing
   return head.next
-}
+} // O(n + m) time, O(1) space
+
 
 /*
 #5: Palindrome Linked List
@@ -138,18 +138,18 @@ Output: true
 */
 
 var isPalindrome = function(head){
-  let slow = head, fast = head, prev, temp
+  let slow = head, fast = head, prev, temp;
   while (fast && fast.next)
-    slow = slow.next, fast = fast.next.next
-  prev = slow, slow = slow.next, prev.next = null
+    slow = slow.next, fast = fast.next.next; // because it traverses twice as fast, finds middle
+  prev = slow, slow = slow.next, prev.next = null;
+  while (slow) // reverse second half to be able to compare for palindrome
+    temp = slow.next, slow.next = prev, prev = slow, slow = temp; // youre going through reversing pointers
+  fast = head, slow = prev;
   while (slow)
-    temp = slow.next, slow.next = prev, prev = slow, slow = temp
-  fast = head, slow = prev
-  while (slow)
-    if (fast.val !== slow.val) return false
-    else fast = fast.next, slow = slow.next
-  return true
-}
+    if (fast.val !== slow.val) return false;
+    else fast = fast.next, slow = slow.next;
+  return true;
+}; // O(n) time, O(1) space
  
 /*
 Initialize two pointers, slow and fast, to the head of the linked list. Also, initialize prev and temp variables.
