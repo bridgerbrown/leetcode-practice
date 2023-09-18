@@ -16,23 +16,9 @@ Total profit is 4 + 3 = 7.
 
 var maxProfit = function (prices) {
   let profit = 0;
-  for (let i = 1; i < prices.length; i++) {
-    if (prices[i] > prices[i - 1]) {
-      profit += prices[i] - prices[i - 1];
-    }
-  }
+  for (let i = 1; i < prices.length; i++) if (prices[i] > prices[i - 1]) profit += prices[i] - prices[i - 1];
   return profit;
 };
-
-  var maxProfit = function(prices){
-    let profit = 0;
-    for (let i = 0; i < prices.length; i++){
-      if (prices[i] > prices[i - 1]){
-        profit += prices[i] - prices[i - 1];
-      }
-    }
-    return profit;
-  }
 
 /*
 A simple method to tackling this array function is to use a for loop to run through the array
@@ -112,26 +98,7 @@ var rotate = function (nums, k) {
   reverse(0, nums.length - 1);
   reverse(0, k - 1);
   reverse(k, nums.length - 1);
-};
-
-console.log(rotate([1, 2, 3, 4, 5], 3));
-
-  var rotate = function(nums, k){
-    k %= nums.length;
-
-    let reverse = function(i, j){
-      while(i < j){
-        let temp = nums[i];
-        nums[i] = nums[j];
-        nums[j] = temp;
-        i++;
-        j--;
-      }
-    };
-    reverse(0, nums.length - 1);
-    reverse(0, k - 1);
-    reverse(k, nums.length - 1);
-  };
+}; // O(n) time, O(1) space
 
 /*
 So there is a simple way to solve this using unshift and pop with a while loop, but that ends
@@ -263,7 +230,7 @@ var intersect = function (nums1, nums2) {
   }
 
   return intersection;
-}; // O(n + m)
+}; // O(n + m) time, O(n) space
 
 /* 
 So my first solution used a for loop and the includes method to compare the two arrays
