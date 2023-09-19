@@ -164,21 +164,13 @@ var singleNumber = function (nums) {
     singular ^= nums[i];
   }
   return singular;
-};
+}; 
 
-var singleNumber = function(nums) {
-  let numSet = new Set();
-  
-  for (let num of nums) {
-    if (numSet.has(num)) {
-      numSet.delete(num);
-    } else {
-      numSet.add(num);
-    }
-  }
-  
-  return numSet.values().next().value;
-};
+function unique(nums){
+  const set = new Set();
+  for (let num of nums) set.has(num) ? set.delete(num) : set.add(num);
+  return set.values().next().value;
+}; // O(n), O(1)
 
 /* 
 
@@ -282,7 +274,7 @@ var plusOne = function (digits) {
   for (let i = digits.length - 1; i >= 0; i--) {
     digits[i] += carry;
     carry = Math.floor(digits[i] / 10);
-    digits[i] %= 10; // modulo operator to get the remainder. if carry added to 10, this would be 0.
+    digits[i] %= 10; // modulo operator to get the remainder. divides then gets remainder.
   }
 
   if (carry) {

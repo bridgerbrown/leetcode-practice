@@ -1,72 +1,97 @@
-function moveZeroes(nums) {
-  let diff = 0;
+function sum(nums, target) {
+  const differences = {};
   for (let i = 0; i < nums.length; i++) {
-    if (nums[i] === 0) {
-      diff++
-    } else {
-      [nums[i - diff], nums[i]] = [nums[i], nums[i - diff]]
-    }
-  };
-};
+    const diff = target - nums[i];
+    if (diff in differences) return [i, differences[diff]];
+    differences[nums[i]] = i;
+  }
+}
 
-function addOne(digits) {
+function plusOne(digits){
   let carry = 1;
-  for (i = digits.length - 1; i >= 0; i--) {
+  for (let i = digits.length - 1; i >= 0; i--) {
     digits[i] += carry;
     carry = Math.floor(digits[i] / 10);
     digits[i] %= 10;
   }
   if (carry) digits.unshift(carry);
   return digits;
-}; // O(n) time, O(1) space
+}
 
-function intersection(nums1, nums2){
+function unique(nums) {
+  let count = 1;
+  for (let i = 1; i < nums.length; i++) {
+    if (nums[i - 1] != nums[i]) {
+      nums[count] = nums[i];
+      count++;
+    }
+  }
+  return count;
+}
+
+function sum(nums, target) {
+  let difference = {};
+  for (let i = 0; i < nums.length; i++){
+    const diff = target - nums[i];
+    if (diff in differences) return [i, differences[diff]];
+    differences[nums[i]] = i;
+  }
+}
+
+function sudoku(board) {
+  const set = new Set();
+
+  for (let i = 0 ; i < board.length; i++){
+    for (let j = 0; j < board[0].length; j++){
+      const value = board[i][j];
+
+      if (value !== ".") {
+        const row = `${value} at row ${i}`;
+        const col = `${value} at col ${j}`;
+        const box = `${value} at box ${Math.floor(i / 3)}, ${Math.floor(j / 3)}`;
+        if (set.has(row) || set.has(col) || set.has(box)) {
+          return false;
+        } else {
+          set.add(row);
+          set.add(col);
+          set.add(box);
+        }
+      }
+    }
+  }
+  return true;
+}
+
+function duplicates(nums) {
+  let count = 1;
+  for (let i = 1; i < nums.length; i++) {
+    if (nums[i - 1] !== nums[i]){
+      nums[count] = nums[i];
+      count++
+    }
+  }
+  return count;
+}
+
+function unique(nums){
+  const set = new Set();
+  for (let num of nums) set.has(num) ? set.delete(num) : set.add(num);
+  return set.values().next().value;
+}
+
+function intersection(nums1, nums2) {
   const frequency = {};
-  const intersect = [];
+  const intersection = [];
 
-  for (let num of nums1) {
-    frequency[num] = (frequency[num] || 0) + 1;
+  for (num of nums1) {
+    frequency[num] = (frequncy[num] || 0) + 1;
   }
 
-  for (let num of nums2) {
+  for (num of num2) {
     if (frequency[num] > 0) {
-      intersect.push(num);
+      intersection.push(num);
       frequency[num]--;
     }
   }
-
-  return intersect;
-} // O(n + m) time, O(n) space
-
-function distinct(nums){
-  const unique = new Set();
-  for(let num of nums) {
-    if (unique.has(num)) return true;
-    unique.add(num)
-  }
-  return false;
-} // O(n), O(1)
-
-function rotate(nums, k) {
-  k %= nums.length;
-
-  const reverse = (i, j) => {
-    while (i < j) {
-      let temp = nums[i];
-      nums[j] = nums[i];
-      nums[i] = temp;
-      i++
-      j--
-    }
-  }
-
-  reverse(0, nums.length - 1);
-  reverse(0, k - 1);
-  revres(k, nums.length - 1);
-}; // O(n), O(1)
-
-function stocks(prices) {
-  let profit = 0;
-  for (let i = 0; i < prices.length; i++) if (prices[i + 1] > prices[i]) profit += prices[i + 1] - prices[i];
-  return profit;
+  return intersection;
 }
