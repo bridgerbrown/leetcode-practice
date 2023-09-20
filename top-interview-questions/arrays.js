@@ -435,15 +435,15 @@ var rotate = function (matrix) {
       matrix[i][j] = matrix[j][i];
       matrix[j][i] = temp;
     }
-  }
+  } // first forloop will flip the rows into columns, using j to take each rows item to put it in another row.
 
   for (let i = 0; i < matrix.length; i++) {
-    for (let j = 0; j < matrix[0].length / 2; j++) {
+    for (let j = 0; j < matrix[0].length / 2; j++) { // JS rounds down 1.5 to 1. You only want to do 'half' so you dont undo the reversing, or you can just do j < 1.
       let temp = matrix[i][j];
       matrix[i][j] = matrix[i][matrix[0].length - j - 1];
       matrix[i][matrix[0].length - j - 1] = temp;
     }
-  }
+  } // shift all the column items to the left
 };
 
 /*
