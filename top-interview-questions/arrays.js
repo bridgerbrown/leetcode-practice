@@ -377,7 +377,7 @@ var isValidSudoku = function (board) {
   const set = new Set();
 
   for (let i = 0; i < board.length; i++) {
-    for (let j = 0; j < board[0].length; j++) {
+    for (let j = 0; j < board[0].length; j++) { // board[0].length just to make it more adaptable to other boards, but can be 9 for standard sudoku
       const value = board[i][j];
 
       if (value !== ".") {

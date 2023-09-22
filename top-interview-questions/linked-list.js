@@ -27,7 +27,6 @@ var deleteNode = function(node){
 } // O(1) time, O(1) space
 
 /*
-
 I am used to working in Python for Linked Lists, but became familiar with the difference in syntax
 and approach while doing this problem.
 
@@ -169,18 +168,15 @@ If the iteration completes without finding any differences, return true as the l
 */
 
 /*
-#5: Linked List Cycle
+#6: Linked List Cycle
 
 Given head, the head of a linked list, determine if the linked list has a cycle in it.
-
-There is a cycle in a linked list if there is some node in the list that can be reached again by continuously following the next pointer. Internally, pos is used to denote the index of the node that tail's next pointer is connected to. Note that pos is not passed as a parameter.
-
+There is a cycle in a linked list if there is some node in the list that can be reached again by continuously 
+following the next pointer. Internally, pos is used to denote the index of the node that tail's next pointer 
+is connected to. Note that pos is not passed as a parameter.
 Return true if there is a cycle in the linked list. Otherwise, return false.
 
- 
-
 Example 1:
-
 
 Input: head = [3,2,0,-4], pos = 1
 Output: true
@@ -198,8 +194,6 @@ var hasCycle = function(head){
 }
 
 /*
-
 Basically, this solution works because of how a faster pointer would catch up to a slower pointer
 if there's a circular linked list in it.
-
 */
