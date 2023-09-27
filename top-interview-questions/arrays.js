@@ -350,6 +350,11 @@ var twoSum = function (nums, target) {
     differences[nums[i]] = i;
   }
 }; // O(n) time, O(n) space
+// So, adding differences[2] = 0 will create a property in the 
+// differences object with the key "2" and the value 0, but its 
+// position in the object's internal storage isn't determined by the 
+// numerical index.
+
 // In the worst case scenario, when there are no repeating values in the nums array, 
 // every unique value will be stored in the differences map. 
 // This means that the size of the map will be proportional to the size of the input nums array, 

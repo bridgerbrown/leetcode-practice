@@ -71,10 +71,7 @@ Output: [5,4,3,2,1]
 */
 
 var reverseList = function(head){
-  let prev = null;
-  let cur = head;
-  let nxt = null;
-
+  let prev = null, cur = head, nxt = null;
   while (cur){
     nxt = cur.next;
     cur.next = prev;
@@ -111,10 +108,10 @@ var mergeTwoLists = function(list1, list2){
 
   while (list1 !== null && list2 !== null){
     if (list1.val < list2.val){
-      merged.next = new ListNode(list1.val)
+      merged.next = new ListNode(list1.val);
       list1 = list1.next;
     } else {
-      merged.next = new ListNode(list2.val)
+      merged.next = new ListNode(list2.val);
       list2 = list2.next;
     }
     merged = merged.next;
@@ -140,7 +137,7 @@ var isPalindrome = function(head){
   let slow = head, fast = head, prev, temp;
   while (fast && fast.next)
     slow = slow.next, fast = fast.next.next; // because it traverses twice as fast, finds middle
-  prev = slow, slow = slow.next, prev.next = null;
+  prev = slow, slow = slow.next, prev.next = null; // set second half to one after half, detach
   while (slow) // reverse second half to be able to compare for palindrome
     temp = slow.next, slow.next = prev, prev = slow, slow = temp; // youre going through reversing pointers
   fast = head, slow = prev;
@@ -191,7 +188,7 @@ var hasCycle = function(head){
     if (head === fast) return true;
   }
   return false;
-}
+} // O(n), O(1)
 
 /*
 Basically, this solution works because of how a faster pointer would catch up to a slower pointer
