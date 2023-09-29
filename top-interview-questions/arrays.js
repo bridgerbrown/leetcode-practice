@@ -39,27 +39,16 @@ The remaining elements of nums are not important as well as the size of nums.
 Return k.
 */
 
-var removeDuplicates = function (nums) {
+var removeDuplicates = function(nums){
   let count = 1;
-  for (let i = 1; i < nums.length; i++) {
-    if (nums[i - 1] != nums[i]) {
+  for(let i = 1; i < nums.length; i++){
+    if(nums[i - 1] != nums[i]){
       nums[count] = nums[i];
       count++;
     }
   }
-  return count;
+return count;
 };
-
-  var removeDuplicates = function(nums){
-    let count = 1;
-    for(let i = 1; i < nums.length; i++){
-      if(nums[i - 1] != nums[i]){
-      nums[count] = nums[i];
-      count++
-      }
-    }
-  return count;
-  };
 
 /*
 In order to change the original nums array, I am going to use a for-loop.
