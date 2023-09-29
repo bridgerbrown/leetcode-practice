@@ -29,13 +29,6 @@ var reverseString = function (s) {
 };
 
 /*
-So the very simple solution is the reverse() method, which actually seems to be pretty
-performance efficient, but I wanted to explore a more in-depth solution. I used this 
-approach in a previous array problem. It swaps the letters at each ends of the array until
-it reaches the middle and the two pointers meet.
-*/
-
-/*
 #2: "Reverse Integer"
 
 Given a signed 32-bit integer x, return x with its digits reversed. 
@@ -49,15 +42,11 @@ Output: 321
 */
 
 var reverse = function (x) {
-  const reversedAbsolute = Math.abs(x).toString().split("").reverse().join("");
-  if (reversedAbsolute > 2 ** 31) return 0;
-  return reversedAbsolute * Math.sign(x);
+  const revAbs = Math.abs(x).toString().split("").reverse().join("");
+  const parsed = parseInt(revAbs);
+  if (parsed > 2 ** 31) return 0; // only check positive bc of abs
+  return parsed * Math.sign(x);
 };
-
-/*
-I first tried to brute force my solution but got stuck, and looked for help and learned a few new things.
-I didnt know about '**', '.sign()', or '.abs()'. I had a similar answer but without the conditional bit check.
-*/
 
 /*
 #3: "First Unique Character in a String"
@@ -104,10 +93,6 @@ Output: true
 */
 
 var isAnagram = function (s, t) {
-  return s.split("").sort().join("") === t.split("").sort().join("");
-};
-
-var isAnagram = function (s, t) {
   if (s.length !== t.length) return false;
   const charCount = new Array(26).fill(0); 
   for (let i = 0; i < s.length; i++) {
@@ -115,7 +100,7 @@ var isAnagram = function (s, t) {
     charCount[t.charCodeAt(i) - 97]--;
   }
   return charCount.every(count => count === 0);
-};
+}; // if uppercase letters, convert to lowercase first
 
 /*
 #5: "Valid Palindrom"
@@ -219,7 +204,7 @@ var strStr = function (haystack, needle) {
 
 var strStr = function (haystack, needle) {
   if (!needle.length) return 0;
-  return haystack.indexOf(needle);
+  return haystack.indexOf(needle); // will return -1 if not there
 } // O(n + k) time, O(1) space
 
 /*
