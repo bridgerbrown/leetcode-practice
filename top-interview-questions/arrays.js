@@ -244,20 +244,6 @@ Thus, the result should be [1,2,4].
 */
 
 var plusOne = function (digits) {
-  const num = BigInt(digits.join("")) + 1n;
-  const string = num.toString();
-
-  let arr = [];
-
-  for (let i = 0; i < string.length; i++) {
-    const toNum = BigInt(string[i]);
-    arr.push(toNum);
-  }
-  return arr;
-}; // O(n + k) where n is the length of digits and k is the length of the BigInt string represenation
-// O(k) space
-
-var plusOne = function (digits) {
   let carry = 1;
 
   for (let i = digits.length - 1; i >= 0; i--) {
