@@ -12,7 +12,7 @@ var maxDepth = function(root) {
   if (!root) return null;
   let max = Math.max(maxDepth(root.left), maxDepth(root.right));
   return max + 1;
-}
+}; // O(n) time, O(log n) space (because of recursive calls)
 
 
 /*
@@ -35,7 +35,7 @@ var isValidBST = function(root) {
   }
 
   return recursiveCheck(root, null, null);
-};
+}; // O(n) time, best O(log n) and worst O(n) space depending on balancing of tree
 
 
 /*
@@ -80,7 +80,7 @@ var levelOrder = function(root) {
   DFS(root, 0);
 
   return results;
-};
+}; // O(n) time, O(n) worst case but O(log n) best case memory 
 
 /*
 #5: Convert Sorted Array to Binary Search Tree

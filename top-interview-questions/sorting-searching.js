@@ -36,15 +36,6 @@ var merge = function(nums1, m, nums2, n) {
   return nums1;
 }
 
-// Faster Answer
-var merge = function(nums1, m, nums2, n) {
-  for (let n = nums2.length - 1; n >= 0; n--) {
-    nums1[n + m] = nums2[n];
-  }
-  nums1.sort((a, b) => a - b);
-  return nums1;
-}
-
 /*
 #2: First Bad Version
 
@@ -65,17 +56,12 @@ Then 4 is the first bad version.
 
 var solution = function(isBadVersion) {
   return function(n) {
-    var left = 0;
-    var right = n;
+    let left = 0, right = n;
 
     while (right - left !== 1) {
-      var mid = parseInt((left + right) / 2);
-      if (isBadVersion(mid)) {
-        right = mid;
-      } else {
-        left = mid;
-      }
+      let mid = parseInt((left + right) / 2);
+      isBadVersion(mid) ? right = mid : left = mid;
     }
     return right;
-  };
-};
+  }
+}; // O(log n) time bc of the binary search, O(1) space

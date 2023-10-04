@@ -1,153 +1,196 @@
-function longestPrefix(strs) {
-  if (!strs.length || strs === undefined) return "";
-  return strs.reduce((prev, next) => {
-    const i = 0;
-    while (prev[i] && next[i] && prev[i] === next[i]) i++;
-    return prev.splice(0, i);
-  })
-}
+function symmetricTree(root) {
+  if (!root) return true;
+  const DFS = (left, right) => {
+    if (!left && !right) return true;
+    if (left && !right || !left && right || left.val !== right.val) return false;
+    return DFS(left.right, right.left) && DFS(left.left, right.right);    
+  };
+  return DFS(root.left, root.right);
+};
 
-function findSingle(nums) {
-  const set = new Set();
-  for (const num of nums) set.has(num) ? set.delete(num) : set.add(num);
-  return set.values().next().value;
-}
-
-function palindromeLl(head) {
-  let fast = slow = head, temp, prev;
-  while (fast && fast.next) fast = fast.next.next, slow = slow.next;
-  prev = slow, slow = slow.next, prev.next = null
-  while (slow) temp = slow.next, slow.next = prev, prev = slow, slow = temp;
-  fast = head, slow = prev;
-  while (slow) {
-    if (fast.val !== slow.val) return false;
-    fast = fast.next, slow = slow.next;
+function reverseLL(head) {
+  let prev = temp = null, cur = head;
+  while (cur) {
+    temp = cur.next;
+    cur.next = prev;
+    prev = cur;
+    cur = temp;
   }
-  return true;
+  return prev;
+};
+
+function mergeSortedArr(nums1, nums2, m, n) {
+  let i = m - 1, j = n - 1, k = m + n - 1;
+
+  while (i >= 0 && j >= 0) {
+    if (nums1[i] > nums2[j]) {
+      nums1[k] = nums1[i];
+      i--;
+    } else {
+      nums1[k] = nums2[j];
+      j--;
+    }
+    k--;
+  }
+
+  while (j >= 0) {
+    nums1[k] = nums2[j];
+    j--, k--;
+  }
+  return nums1;
+};
+
+function solution(isBadVersion) {
+  return function(n) {
+    let left = 0, right = n;
+
+    while (right - left !== 1) {
+      let mid = parseInt((left + right) / 2);
+      isBadVersion(mid) ? right = mid : left = mid;
+    }
+    return right;
+  }
+};
+
+function maxDepth(root) {
+  if (!root) return null;
+  let max = Math.max(maxDepth(root.left), maxDepth(root.right));
+  return max + 1;
 }
 
 function firstUniqueChar(str) {
   const freq = {};
-  for (const char of str) freq[char] = (freq[char] || 0) + 1;
-  for (let i = 0; i < str.length; i++) {
-    if(freq[str[i]] === 1) return i;
+  for (let char of str) {
+    freq[char] = (freq[char] || 0) + 1;
   }
+  for (let i = 0; i < str.length; i++) {
+    if (freq[str[i]] === 1) return i;
+  }
+  return -1;
 }
 
-function strAtoi(str) {
-  return Math.max(-(2 ** 31), Math.min(2 ** 31 - 1, parseInt(str) || 0));
-}
-
-function strStr(haystack, needle) {
-  if (!needle.length) return 0;
-  return haystack.indexOf(needle);
+function palindromStr(str) {
+  const chars = str.replace(/[^a-b0-9]/gi, "");
+  for (let i = 0, j = str.length - 1; i <= j; i++, j--) {
+    if (chars[i] !== chars[j]) return false;
+  }
+  return true;
 }
 
 function anagramStr(s, t) {
-  if(s.length !== t.length) return false;
   const alph = new Array(26).fill(0);
   for (let i = 0; i < s.length; i++) {
-    aplh[s.charCodeAt(i) - 97]++
-    aplh[t.charCodeAt(i) - 97]--
+    alph[s.charCodeAt(i) - 97]++;
+    alph[t.charCodeAt(i) - 97]--;
   }
   return alph.every(count => count === 0);
-}
+};
 
-function reverseInt(x) {
-  const abs = Math.abs(x).toString().split("").reverse().join();
-  const parsed = parseInt(abs);
-  if (parsed > 2 ** 31) return 0;
-  return parsed * Math.sign(x);
-}
+function levelOrder(root) {
+  const results = [];
+  if (!root) return results;
 
-function removeDuplicates(nums) {
-  const count = 1;
-  for (let i = 1; i < nums.length; i++) {
-    if (nums[i - 1] !== nums[i]) {
-      nums[i] = nums[count];
-      count++
-    }
+  const DFS = (node, level) => {
+    results[level] = [...(results[level] || []), node.val];
+    if (node.left) DFS(node.left, level + 1);
+    if (node.right) DFS(node.right, level + 1);
   }
-  return count;
+  DFS(root, 0);
+
+  return results;
 }
 
-function palindromStr(str) {
-  str = str.replace(/[^a-b0-9]/gi, "");
-  for (let i = 0, j = str.length - 1; i <= j; i++, j--) {
-    if (str.charAt[i] !== str.charAt[j]) return false
+function sortedArrToBST(nums) {
+  const BST = (left, right) => {
+    if (left > right) return null;
+    const mid = Math.floor((left + right) / 2);
+    const current = new TreeNode(nums[mid]);
+    current.left = BST(left, mid - 1);
+    current.right = BST(mid + 1, right);
+    return current;
+  };
+  return BST(0, nums.length - 1);
+}
+
+function maxDepth(root) {
+  if (!root) return null;
+  let max = Math.max(maxDepth(root.left), maxDepth(root.right));
+  return max + 1;
+}
+
+function solution(isBadVersion) {
+  return function(n) {
+    let i = 0, j = n;
+    while (j - i !== 1) {
+      let mid = parseInt((left + right) / 2);
+      isBadVersion(mid) ? right = mid : left = mid;
+    } 
+    return right;
   }
-  return true;
 }
 
-function reverseStr(arr) {
-  let i = 0, j = arr.length, temp;
-  while (i < j) {
-    temp = arr[i];
-    arr[i] = arr[j];
-    arr[j] = temp;
-    i++, j--;
+function levelOrderBST(root) {
+  const results = [];
+  if (!root) return results;
+  const DFS = (node, level) => {
+    results[level] = [...(results[level] || []), node.val];
+    if (node.left) DFS(node.left, level + 1);
+    if (node.right) DFS(node.right, level + 1);
   }
+  DFS(root, 0);
+  return results;
 }
 
-function longestPrefix(strs) {
-  if (!strs.length) return "";
-  return strs.reduce((prev, next) => {
-    const i = 0;
-    while (prev[i] && next[i] && prev[i] === next[i]) i++;
-    return prev(0, i);
-  })
+function symmetricTree(root) {
+  if (!root) return true;
+  const DFS = (left, right) => {
+    if (!left && !right) return true;
+    if (left && !right || !left && right || left.val !== right.val) return false;
+    return DFS(left.right, right.left) && DFS(left.left, right.right);
+  };
+  return DFS(root.left, root.right);
 }
 
-function reverseInt(x) {
-  const abs = x.toString().split("").reverse().join();
-  const int = parseInt(abs);
-  if (int > 2 ** 31) return 0;
-  return int * Math.sign(x);
-}
-
-function palindromStr(str) {
-  str = str.toLowerCase().replace(/[^a-b0-9]/gi, "");
-  for (let i = 0, j = str.length - 1; i <= j; i++, j--) {
-    if (str.charAt[i] !== str.charAt[j]) return false;
+function firstUniqueChar(str) {
+  const freq = {};
+  for (let char of str) {
+    freq[char] = (freq[char] || 0) + 1;
   }
-  return true;
+  for (let i = 0; i < str.length; i++){
+    if (freq[str[i]] === 1) return i;
+  }
+  return -1;
 }
 
-function strAtoi(s) {
-  return Math.max(-(2 ** 31), Math.min(2 ** 31 - 1, parseInt(s) || 0));
+function sortedArrToBST(nums) {
+  const BST = (left, right) => {
+    if (left > right) return null;
+    const mid = Math.floor((left + right) / 2);
+    const current = new TreeNode(nums[mid]);
+    current.left = BST(left, mid - 1);
+    current.right = BST(mid + 1, right);
+    return current;
+  };
+  return BST(0, nums.length - 1);
 }
 
-function mergeLists(list1, list2) {
-  const merged = new Node();
-  const head = merged;
-  while (list1 && list2) {
-    if (list1.val < list2.val) {
-      merged.next = new Node(list1.val);
-      list1 = list1.next;
+function mergeSortedArr(nums1, nums2, m, n) {
+  let i = m - 1, j = n - 1, k = m + n - 1;
+  while (i >= 0 && j >= 0) {
+    if (nums1[i] > nums2[j]) {
+      nums1[k] = nums1[i];
+      i--;
     } else {
-      merged.next = new Node(list2.val);
-      list2 = list2.next;
+      nums1[k] = nums2[j];
+      j--;
     }
-    merged = merged.next;
+    k--;
   }
-  merged.next = list1 || list2;
-  return head.next;
-}
-  
-function removeDuplicates(str) {
-  const count = 1;
-  for (let i = 1; i < str.length; i++) {
-    if (str[i - 1] !== str[i]) {
-      str[i] = str[count];
-      count++;
-    }
+  while (j >= 0) {
+    nums1[k] = nums2[j];
+    j--, k--;
   }
-  return count;
-}
-
-function strStr(haystack, needle) {
-  if (!needle.length) return 0;
-  return haystack.indexOf(needle);
+  return nums1;
 }
 
 function anagramStr(s, t) {
@@ -160,12 +203,16 @@ function anagramStr(s, t) {
   return alph.every(count => count === 0);
 }
 
-function firstUniqueChar(str) {
-  const freq = {};
-  for (let char of str) {
-    freq[char] = (freq[char] || 0) + 1;
+function validBST(root) {
+  if (!root) return true;
+  const validate = (root, min, max) => {
+    if (!root) return true;
+    if ((min !== null && root.val <= min) || (max !== null && root.val >= max)) return false;
+    return validate(root.left, min, root.val) && validate(root.right, root.val, max);
   }
-  for (let i = 0; i < str.length; i++) {
-    if (freq[str[i]] === 1) return i;
-  }
+  return validate(root, null, null);
+}
+
+function atoiStr(str) {
+  return Math.max(-(2 ** 31), Math.min(2 ** 31 - 1, parseInt(str) || 0));
 }
