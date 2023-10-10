@@ -11,28 +11,14 @@ Explanation: The arrays we are merging are [1,2,3] and [2,5,6].
 The result of the merge is [1,2,2,3,5,6] with the underlined elements coming from nums1.
 */
 
-var merge = function(nums1, m, nums2, n) {
-  let i = m - 1;
-  let j = n - 1;
-  let k = m + n - 1;
-
+function mergeSortedArr(nums1, m, nums2, n) {
+  let i = m - 1, j = n - 1, k = n + m - 1;
   while (i >= 0 && j >= 0) {
-    if (nums1[i] > nums2[j]) {
-      nums1[k] = nums1[i];
-      i--;
-    } else {
-      nums1[k] = nums2[j];
-      j--;
-    }
+    if (nums1[i] > nums2[j]) nums1[k] = nums1[i], i--;
+    else nums1[k] = nums2[j], j--;
     k--;
   }
-
-  while (j >= 0) {
-    nums1[k] = nums2[j];
-    j--;
-    k--;
-  }
-
+  while (j >= 0) nums1[k] = nums2[j], j--, k--;
   return nums1;
 }
 
@@ -59,7 +45,7 @@ var solution = function(isBadVersion) {
     let left = 0, right = n;
 
     while (right - left !== 1) {
-      let mid = parseInt((left + right) / 2);
+      let mid = parseInt((left + right) / 2); // or Math.floor, same thing
       isBadVersion(mid) ? right = mid : left = mid;
     }
     return right;
