@@ -40,7 +40,7 @@ var isValidBST = function(root) {
 
 /*
 #3: Symmetric Tree
-
+ return results;
 Given the root of a binary tree, check whether it is a mirror of itself (i.e., symmetric around its center).
 
 Input: root = [1,2,2,3,4,4,3]
