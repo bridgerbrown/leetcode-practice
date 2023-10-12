@@ -245,17 +245,12 @@ Thus, the result should be [1,2,4].
 
 var plusOne = function (digits) {
   let carry = 1;
-
   for (let i = digits.length - 1; i >= 0; i--) {
     digits[i] += carry;
     carry = Math.floor(digits[i] / 10);
     digits[i] %= 10; // modulo operator to get the remainder. divides then gets remainder.
   }
-
-  if (carry) {
-    digits.unshift(carry);
-  }
-
+  if (carry) digits.unshift(carry);
   return digits;
 }; // O(n) time, O(1) space
 
