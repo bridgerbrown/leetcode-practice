@@ -1,49 +1,32 @@
-function mergeSortedArr(nums1, m, nums2, n) {
-  let i = m - 1, j = n - 1, k = m + n - 1;
-  while (i >= 0 && j >= 0) {
-    if (nums1[i] > nums2[j]) {
-      nums1[k] = nums1[i], i--;
-    } else {
-      nums1[k] = nums2[j], j--;
-    }
-    k--;
+function palStr(str) {
+  str = str.toLowerCase().replace(/[^a-b0-9]/gi, "");
+  for (let i = 0, j = str.length - 1; i < j; i++, j--) {
+    if (str.charAt(i) !== str.charAt(j)) return false;
   }
-  while (j >= 0) {
-    nums1[k] = nums2[j], j--, k--;
-  }
-  return nums1;
+  return true;
 }
 
-function firstBadV(isBadVersion) {
-  return function (n) {
-    let left = 0, right = n;
-    while (right - left !== 1) {
-      const mid = Math.floor((left + right) / 2);
-      isBadVersion(mid) ? right = mid : left = mid;
-    }
-    return right;
-  } 
+function revLL(head) {
+  let temp = prev = null, cur = head;
+  while (cur) {
+    temp = cur.next,
+    cur.next = prev,
+    prev = cur,
+    cur = temp;
+  }
+  return prev;
 }
 
-function firstUniqueChar(str) {
-  const freq = {};
-  for (let char of str) {
-    freq[char] = (freq[char] || 0) + 1;
-  }
-  for (let i = 0; i < str.length; i++) {
-    if (freq[str[i]] === 1) return i;
-  }
-  return -1;
-}
-
-function mergeSortedLL(list1, list2) {
+function mergeLLs(list1, list2) {
   const merged = new Node();
   const head = merged;
   while (list1 && list2) {
     if (list1.val < list2.val) {
-      merged.next = new Node(list1.val), list1 = list1.next;
+      merged.next = new Node(list1.val),
+      list1 = list1.next;
     } else {
-      merged.next = new Node(list2.val), list2 = list2.next;
+      merged.next = new Node(list2.val),
+      list2 = list2.next;
     }
     merged = merged.next;
   }
@@ -51,52 +34,59 @@ function mergeSortedLL(list1, list2) {
   return head.next;
 }
 
-function reverseInt(int) {
-  const abs = Math.abs(int).toString().split("").reverse().join("");
-  const parsed = parseInt(abs);
-  if (parsed > 2 ** 31 - 1) return 0;
-  return parsed * Math.sign(int);
+function strAtoi(str) {
+  return Math.max(-(2 ** 31), Math.min(2 ** 31 - 1, parseInt(str) || 0));
 }
 
-function convertSortedArrBST(nums) {
-  const BST = (left, right) => {
-    if (left > right) return null;
-    const mid = Math.floor((left + right) / 2);
-    const node = new TreeNode(nums[mid]);
-    node.left = BST(left, mid - 1);
-    node.right = BST(mid + 1, right);
-    return node;
+function anagramStr(s, t) {
+  const alph = new Array(26).fill(0);
+  for (let i = 0; i < s.length; i++) {
+    alph[s.charCodeAt(i) - 97]++; 
+    alph[t.charCodeAt(i) - 97]--; 
   }
-  return BST(0, nums.length - 1);
+  return alph.every(count => count === 0);
+}
+
+function removeDup(arr) {
+  const count = 1;
+  for (let i = 1; i < arr.length; i++) {
+    if (arr[i - 1] !== arr[i]) {
+      arr[count] = arr[i];
+      count++;
+    } 
+  }
+  return count;
+}
+
+function symmetricTree(root) {
+  if (!root) return true;
+  const DFS = (left, right) => {
+    if (!left && !right) return true;
+    if (left && !right || !left && right || left.val !== right.val) return false;
+    DFS(left.right, right.left), DFS(left.left, right.right);
+  }
+  return DFS(root.left, root.right);
 }
 
 function findUnique(nums) {
   const set = new Set();
-  for (let i = 0; i < nums.length; i++) {
-    set.has(nums[i]) ? set.delete(nums[i]) : set.add(nums[i]);
-  }
-  return set.values().next().value;
-}
-
-function palindromStr(str) {
-  str = str.toLowerCase().replace(/[^a-b0-9]/gi, "");
-  for (let i = 0, j = str.length - 1; i <= j; i++, j--) {
-    if (str.charAt(i) !== str.charAt(j)) return false;
-  }
-  return true;
-}
-
-function longestPrefix(strs) {
-  if (strs.length <= 0) return "";
-  return strs.reduce((prev, next) => {
-    const i = 0;
-    while (prev[i] && next[i] && prev[i] === next[i]) i++;
-    return prev.slice(0, i);
-  }) 
+  for (const num of nums) set.has(num) ? set.delete(num) : set.add(num);
+  return set.values().next.value;
 }
 
 function maxDepth(root) {
-  if (!root) return null;
+  if (!root) return null; 
   let max = Math.max(maxDepth(root.left), maxDepth(root.right));
   return max + 1;
+}
+
+function moveZeroes(nums) {
+  const diff = 0;
+  for (let i = 0; i < nums.length; i++) {
+    if (nums[i] === 0) {
+      diff++;
+    } else {
+      [nums[i - diff], nums[i]] = [nums[i], nums[i - diff]];
+    }
+  }
 }
