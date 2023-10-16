@@ -31,7 +31,8 @@ var climbStairs = function(n) {
 #2: Best Time to Buy and Sell Stock
 
 You are given an array prices where prices[i] is the price of a given stock on the ith day.
-You want to maximize your profit by choosing a single day to buy one stock and choosing a different day in the future to sell that stock.
+You want to maximize your profit by choosing a single day to buy one stock and choosing a 
+different day in the future to sell that stock.
 Return the maximum profit you can achieve from this transaction. If you cannot achieve any profit, return 0.
 
 Example 1:
@@ -84,8 +85,12 @@ var maxSubArray = function(nums) {
 /*
 #4: House Robber
 
-You are a professional robber planning to rob houses along a street. Each house has a certain amount of money stashed, the only constraint stopping you from robbing each of them is that adjacent houses have security systems connected and it will automatically contact the police if two adjacent houses were broken into on the same night.
-Given an integer array nums representing the amount of money of each house, return the maximum amount of money you can rob tonight without alerting the police.
+You are a professional robber planning to rob houses along a street. 
+Each house has a certain amount of money stashed, the only constraint stopping you from 
+robbing each of them is that adjacent houses have security systems connected and it will 
+automatically contact the police if two adjacent houses were broken into on the same night.
+Given an integer array nums representing the amount of money of each house, return the maximum
+amount of money you can rob tonight without alerting the police.
 
 Example 1:
 

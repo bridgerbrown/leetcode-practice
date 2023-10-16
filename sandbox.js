@@ -1,92 +1,138 @@
-function palStr(str) {
-  str = str.toLowerCase().replace(/[^a-b0-9]/gi, "");
-  for (let i = 0, j = str.length - 1; i < j; i++, j--) {
-    if (str.charAt(i) !== str.charAt(j)) return false;
-  }
-  return true;
+var Solution = function(nums) {
+  this.nums = nums;
+};
+
+Solution.prototype.reset = function() {
+  return this.nums;
 }
 
-function revLL(head) {
-  let temp = prev = null, cur = head;
-  while (cur) {
-    temp = cur.next,
-    cur.next = prev,
-    prev = cur,
-    cur = temp;
+Solution.prototype.shuffle = function() {
+  const shuffled = this.nums.slice();
+  const n = shuffled.length;
+  const swap = (arr, i, j) => {
+    let temp = arr[i];
+    arr[i] = arr[j];
+    arr[j] = temp;
   }
-  return prev;
+  for (let i = 0; i < n; i++) {
+    swap(shuffled, i, Math.floor(Math.random() * n));
+    return shuffled;
+  }
+};
+
+var MinStack = function() {
+  this.minStack = [];
+  this.container = [];
+};
+MinStack.prototype.push = function(val) {
+  this.container.push(val);
+  if (this.minStack.length === 0 || val <= this.minStack[this.minStack.length - 1]) {
+    this.minStack.push(val);  
+  }
+};
+MinStack.prototype.pop = function() {
+  let val = this.container.pop();
+  if (val === this.minStack[this.minStack.length - 1]) {
+    this.minStack.pop();
+  }
+};
+MinStack.prototype.top = function() {
+  return this.container[this.container.length - 1];
+};
+MinStack.prototype.getMin = function() {
+  return this.minStack[this.minStack.length - 1];
 }
 
-function mergeLLs(list1, list2) {
-  const merged = new Node();
-  const head = merged;
-  while (list1 && list2) {
-    if (list1.val < list2.val) {
-      merged.next = new Node(list1.val),
-      list1 = list1.next;
-    } else {
-      merged.next = new Node(list2.val),
-      list2 = list2.next;
+function maxSubarr(nums) {
+  let prev = 0;
+  let max = -Inf;
+  for (let i = 0; i < nums.length; i++) {
+    prev = Math.max(prev + nums[i], nums[i]);
+    max = Math.max(max, prev);
+  }
+  return max;
+}
+
+function climbStairs(n) {
+  if (n <= 2) return n;
+  let first = 1, second = 2, current;
+  for (let i = 3; i <= n; i++) {
+    current = first + second;
+    first = second;
+    second = current;
+  }
+  return current;
+}
+
+function countPrimes(n) {
+  let count = 0, primes = [];
+  if (n <= 1) return 0;
+  for (let i = 2; i < n; i++) {
+    if (primes[i] == undefined) {
+      primes[i] = true, count++;
+      for (let j = 2; j * i < n; j++) {
+        primes[i * j] = false;
+      }
     }
-    merged = merged.next;
-  }
-  merged.next = list1 || list2;
-  return head.next;
-}
-
-function strAtoi(str) {
-  return Math.max(-(2 ** 31), Math.min(2 ** 31 - 1, parseInt(str) || 0));
-}
-
-function anagramStr(s, t) {
-  const alph = new Array(26).fill(0);
-  for (let i = 0; i < s.length; i++) {
-    alph[s.charCodeAt(i) - 97]++; 
-    alph[t.charCodeAt(i) - 97]--; 
-  }
-  return alph.every(count => count === 0);
-}
-
-function removeDup(arr) {
-  const count = 1;
-  for (let i = 1; i < arr.length; i++) {
-    if (arr[i - 1] !== arr[i]) {
-      arr[count] = arr[i];
-      count++;
-    } 
   }
   return count;
 }
 
-function symmetricTree(root) {
-  if (!root) return true;
-  const DFS = (left, right) => {
-    if (!left && !right) return true;
-    if (left && !right || !left && right || left.val !== right.val) return false;
-    DFS(left.right, right.left), DFS(left.left, right.right);
+function mergeLL(list1, list2) {
+  let merged = new Node();
+  let head = merged;
+  while (list1 && list2) {
+    if (list1.val < list2.val) {
+      merged.next = new Node(list1.val), list1 = list1.next;
+    } else {
+      merged.next = new Node(list2.val), list2 = list2.next;
+    }
+    merged = merged.next;
   }
-  return DFS(root.left, root.right);
+  merged = list1 || list2;
+  return head.next;
 }
 
-function findUnique(nums) {
-  const set = new Set();
-  for (const num of nums) set.has(num) ? set.delete(num) : set.add(num);
-  return set.values().next.value;
+function fizzBuzz(n) {
+  const results = [];
+  for (let i = 1; i <= n; i++) {
+    if (i % 3 == 0 && i % 5 == 0) {
+      results.push("FizzBuzz");
+    } else if (i % 3 == 0) {
+      results.push("Fizz");
+    } else if (i % 5 == 0) {
+      results.push("Buzz");
+    } else {
+      results.push(i.toString());
+    }
+  }
+  return results;
 }
 
 function maxDepth(root) {
-  if (!root) return null; 
+  if (!root) return null;
   let max = Math.max(maxDepth(root.left), maxDepth(root.right));
   return max + 1;
 }
 
-function moveZeroes(nums) {
-  const diff = 0;
-  for (let i = 0; i < nums.length; i++) {
-    if (nums[i] === 0) {
-      diff++;
+function bestBuySellStock(prices) {
+  let buy = 0, sell = 1, max = 0;
+  while (sell < prices.length) {
+    if (prices[buy] < prices[sell]) {
+      let profit = prices[sell] - prices[buy];
+      max = Math.max(max, profit);
     } else {
-      [nums[i - diff], nums[i]] = [nums[i], nums[i - diff]];
+      buy = sell;
     }
+    sell++;
   }
+  return max;
+}
+
+function houseRobber(nums) {
+  let prev = 0, before = 0;
+  for (let i = 0; i < nums.length; i++) {
+    let temp = prev, prev = Math.max(nums[i] + before, prev), before = temp;
+  }
+  return prev;
 }

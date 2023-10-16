@@ -19,22 +19,17 @@ var fizzBuzz = function(n){
   let arr = [];
   for (let i = 1; i <= n; i++){
     if (i % 3 == 0 && i % 5 == 0){
-      arr.push("FizzBuzz")
+      arr.push("FizzBuzz");
     } else if (i % 3 == 0){
-        arr.push("Fizz")
+      arr.push("Fizz");
     } else if (i % 5 == 0){
-      arr.push("Buzz")
+      arr.push("Buzz");
     } else {
-    arr.push(i.toString());
+      arr.push(i.toString());
     }
   }
-  return arr
+  return arr;
 }
-
-/*
-This is definitely one of the easiest problems so far. It's really just about knowing how to use the 
-'divisible by' operator, then when they fulfill one of the conditionals you push the right word.
-*/
 
 /*
 #2: Count Primes
@@ -59,11 +54,11 @@ var countPrimes = function(n){
       primes[i] = true;
       count++;
       for (let j = 2; j * i < n; j++){
-        primes[i*j] = false;
+        primes[i * j] = false;
       }
     }      
   }
-  return count
+  return count;
 }
 
 /*

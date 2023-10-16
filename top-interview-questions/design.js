@@ -1,7 +1,8 @@
 /*
 #1: Shuffle an Array
 
-Given an integer array nums, design an algorithm to randomly shuffle the array. All permutations of the array should be equally likely as a result of the shuffling.
+Given an integer array nums, design an algorithm to randomly shuffle the array. 
+All permutations of the array should be equally likely as a result of the shuffling.
 
 Implement the Solution class:
 
