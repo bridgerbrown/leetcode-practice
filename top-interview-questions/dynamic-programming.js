@@ -54,7 +54,7 @@ var maxProfit = function (prices) {
     } else {
       buy = sell;
     }
-    sell++
+    sell++;
   }
   return max;
 };
