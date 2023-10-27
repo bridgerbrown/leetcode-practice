@@ -1,196 +1,155 @@
-function houseRobber(nums) {
-  let before = prev = 0;
+function pascalsTriangle(numRows) {
+  if (!numRows || numRows <= 0) return [];
+  const pascal = [[1]];
+  for (let i = 1; i < numRows; i++) {
+    const prevRow = pascal[pascal.length - 1];
+    const shiftLeft = [...prevRow, 0];
+    const shiftRight = [0, ...prevRow];
+    const currentRow = shiftLeft.map((r, i) => r + shiftRight[i]);
+    pascal.push(currentRow);
+  }
+  return pascal;
+}
+
+function romanToInteger(s) {
+  const map = {
+    "I": 1,
+    "V": 5,
+    "X": 10,
+    "L": 50,
+    "C": 100,
+    "D": 500,
+    "M": 1000,
+  };
+  const results = 0;
+  for (let i = 0; i < s.length; i++) {
+    if (map[s[i]] < map[s[i + 1]]) {
+      results -= map[s[i]];
+    } else {
+      results += map[s[i]];
+    }
+  }
+  return results;
+}
+
+function hammingDistance(x, y) {
+  return (x ^ y).toString(2).replace(/0/g, '').length;
+}
+
+function reverseBits(n) {
+  let result = 0, count = 32;
+  while (count--) {
+    result *= 2;
+    result += n & 1;
+    n = n >> 1;
+  }
+}
+
+function numberOf1Bits(n) {
+  let count = 0;
+  while (n != 0) {
+    count += n & 1;
+    n = n >>> 1;
+  }
+  return count;
+}
+
+function numberOf1Bits(n) {
+  let count = 0;
+  while (n != 0) {
+    count += n & 1;
+    n = n >>> 1;
+  }
+  return count;
+}
+
+function missingNumber(nums) {
+  let sum = total = 0;
   for (let i = 0; i < nums.length; i++) {
-    let temp = prev;
+    sum += nums[i];
+    total += i + 1;
+  }
+  return total - sum;
+}
+
+function powerOfThree(n) {
+  while (n > 1) {
+    n /= 3;
+  }
+  return n === 1;
+}
+
+function houseRobber(nums){
+  let prev = before = 0, temp;
+  for (let i = 0; i < nums.length; i++) {
+    temp = prev; 
     prev = Math.max(nums[i] + before, prev);
     before = temp;
   }
   return prev;
 }
 
-function climbStairs(n) {
-  if (n <= 2) return n;
-  let first = 1, second = 2, curr;
-  for (let i = 3; i <= n; i++) {
-    curr = first + second;
-    first = second;
-    second = curr;
-  }
-  return curr;
-}
-
-function countPrimes(n) {
-  const primes = [];
-  const count = 0;
-  if (n <= 1) return count;
-  for (let i = 2; i < n; i++) {
-    if (primes[i] === undefined) {
-      primes[i] = true, count++;
-      for (let j = 2; j * i < n; j++) {
-        primes[i * j] = false; 
-      }
-    } 
-  }
-  return count;
-}
-
-Solution.prototype.shuffle = function() {
-  const shuffled = this.nums.slice();
-  const n = this.nums.length;
-  const swap = (arr, i, j) => {
-    let temp = arr[i]; arr[i] = arr[j]; arr[j] = temp;
-  }
-  for (let i = 0; i < n; i++) {
-    swap(shuffled, i, Math.floor(Math.random() * n));
-  }
-  return shuffled;
-}
-
-function mergeSortedArrs(nums1, n, nums2, m) {
-  let i = n - 1, j = m - 1, k = n + m - 1;
-  while (i >= 0 && j >= 0) {
-    if (nums1[i] > nums2[j]) {
-      nums1[k] = nums1[i], i--;
+function validParentheses(s) {
+  const p = {
+    ')' : '(',
+    '}' : '{',
+    ']' : '[',
+  };
+  let arr = [];
+  for (let i = 0; i < s.length; i++) {
+    if (s[i] === "(" || s[i] === "[" || s[i] === "{") {
+      arr.push(s[i]);
     } else {
-      nums1[k] = nums2[j], j--;
+      if (arr[arr.length - 1] === map[s[i]]) {
+        arr.pop();
+      } else return false;
     }
-    k--;
   }
-  while (j >= 0) {
-    nums1[k] = nums2[j], j--, k--;
-  }
-  return nums1;
+  return arr.length === 0;
 }
 
-function maxSubarray(nums) {
-  let prev = 0, max = -Infinity;
-  for (let i = 0; i < nums.length; i++) {
-    prev = Math.max(nums[i] + prev, nums[i]);
-    max = Math.max(prev, max);
-  }
-  return max;
+function hammingDistance(x, y) {
+  return (x ^ y).toString(2).replace(/0/g, '').length;
 }
 
-function strStr(haystack, needle) {
-  if (!needle.length) return 0;
-  return haystack.indexOf(needle);
-}
-
-function bestBuySellStock(prices) {
-  let buy = 0, sell = 1, max = 0;
-  while (sell <= prices.length) {
-    if (prices[buy] < prices[sell]) {
-      let profit = prices[sell] - prices[buy];
-      max = Math.max(profit, max);
-    } else {
-      buy = sell;
-    }
-    sell++;
+function reverseBits(n) {
+  let result = 0, count = 32; 
+  while (count--) {
+    result *= 2;
+    result += n & 1;
+    n = n >> 1;
   }
-  return max;
-}
-
-function maxSubarray(nums) {
-  let prev = 0, max = -Infinity;
-  for (let i = 0; i < nums.length; i++) {
-    prev = Math.max(nums[i] + prev, nums[i]) 
-    max = Math.max(prev, max);
-  }
-  return max;
+  return result;
 }
 
 function houseRobber(nums) {
-  let before = prev = 0;
+  let before = prev = 0, temp;
   for (let i = 0; i < nums.length; i++) {
-    let temp = prev;
+    temp = prev;
     prev = Math.max(nums[i] + before, prev);
     before = temp;
   }
   return prev;
 }
 
-function countPrimes(n) {
-  if (n <= 1) return 0;
-  const primes = [], count = 0;
-  for (let i = 2; i < n; i++) {
-    if (primes[i] == undefined) {
-      primes[i] = true, count++;
-      for (let j = 2; j * i < n; j++) {
-        primes[j * i] = false;
-      }
-    } 
+function pascalsTriangle(numRows) {
+  if (!numRows || numRows <= 0) return [];
+  const pascal = [[1]];
+  for (let i = 1; i < numRows; i++) {
+    const prevRow = pascal[pascal.length - 1];
+    const shiftLeft = [...prevRow, 0];
+    const shiftRight = [0, ...prevRow];
+    const currentRow = shiftLeft.map((r, i) => r + shiftRight[i]);
+    pascal.push(currentRow);
   }
-  return count;
+  return pascal;
 }
 
-function climbStairs(n) {
-  let first = 1, second = 2, curr;
-  if (n <= 2) return n;
-  for (let i = 3; i <= n; i++) {
-    curr = first + second;
-    first = second;
-    second = curr;
-  }
-  return curr;
-}
-
-function strStr(haystack, needle){
-  if (!needle.length) return 0;
-  return haystack.indexOf(needle);
-} 
-
-function climbStairs(n) {
-  let first = 1, second = 2, curr;
-  if (n <= 2) return n;
-  for (let i = 3; i <= n; i++) {
-    curr = first + second;
-    first = second;
-    second = curr;
-  }
-  return curr;
-}
-
-function mergeSortedArr(nums1, n, nums2, m) {
-  let i = n - 1, j = m - 1, k = n + m - 1;
-  while (i >= 0 && j >= 0) {
-    if (nums1[i] > nums2[j]) {
-      nums1[k] = nums1[i], i--;
-    } else {
-      nums1[k] = nums2[j], j--;
-    }
-    k--;
-  }
-  while(j >= 0) {
-    nums1[k] = nums2[j], j--, k--;
-  }
-  return nums1;
-}
-
-function strStr(haystack, needle) {
-  if (!needle.length) return 0;
-  return haystack.indexOf(needle);
-}
-
-function countPrimes(n) {
-  if (n <= 1) return 0;
-  const primes = [], count = 0;
-  for (let i = 2; i < n; i++) {
-    if (primes[i] == undefined) {
-      primes[i] = true, count++;
-      for (let j = 2; j * i < n; j++) {
-        primes[i * j] = false; 
-      }
-    } 
-  }
-  return count;
-}
-
-function houseRobber(nums) {
-  let before = prev = 0;
+function missingNumber(nums) {
+  let sum = total = 0;
   for (let i = 0; i < nums.length; i++) {
-    let temp = prev;
-    prev = Math.max(nums[i] + before, prev);
-    before = temp;
+    sum += nums[i];
+    total += i + 1;
   }
-  return prev;
+  return total - sum;
 }

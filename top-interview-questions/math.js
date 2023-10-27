@@ -65,10 +65,7 @@ var countPrimes = function(n){
 #3: Power of Three
 
 Given an integer n, return true if it is a power of three. Otherwise, return false.
-
 An integer n is a power of three, if there exists an integer x such that n == 3x.
-
- 
 
 Example 1:
 
@@ -78,17 +75,11 @@ Explanation: 27 = 33
 */
 
 var isPowerOfThree = function(n){
-  while(n > 1){
-    n /= 3
-  }
-  return n === 1
-}
-
-/*
-I discovered the '=/' operator from this one, and I found this solution to be really clever.
-You keep dividing and assigning it to n until it's less than or equal to 1, and if it equals 1 
-in the end, it is a power of three.
-*/
+  while (n > 1) {
+    n /= 3;
+  };
+  return n === 1;
+}; // O(log3 (n)) time, O(1) space
 
 /*
 #4: Roman to Integer
@@ -103,9 +94,12 @@ L             50
 C             100
 D             500
 M             1000
-For example, 2 is written as II in Roman numeral, just two ones added together. 12 is written as XII, which is simply X + II. The number 27 is written as XXVII, which is XX + V + II.
+For example, 2 is written as II in Roman numeral, just two ones added together. 12 is written as XII, which is simply X + II. 
+The number 27 is written as XXVII, which is XX + V + II.
 
-Roman numerals are usually written largest to smallest from left to right. However, the numeral for four is not IIII. Instead, the number four is written as IV. Because the one is before the five we subtract it making four. The same principle applies to the number nine, which is written as IX. There are six instances where subtraction is used:
+Roman numerals are usually written largest to smallest from left to right. However, the numeral for four is not IIII. 
+Instead, the number four is written as IV. Because the one is before the five we subtract it making four. 
+The same principle applies to the number nine, which is written as IX. There are six instances where subtraction is used:
 
 I can be placed before V (5) and X (10) to make 4 and 9. 
 X can be placed before L (50) and C (100) to make 40 and 90. 
@@ -129,14 +123,14 @@ var romanToInt = function(s){
     X: 10, 
     V: 5,
     I: 1  
-  }
+  };
   let total = 0;
   for (let i = 0; i < s.length; i++){
-    if(obj[s[i]] < obj[s[i+1]]){
-      total -= obj[s[i]]
+    if (obj[s[i]] < obj[s[i+1]]){
+      total -= obj[s[i]];
     } else {
       total += obj[s[i]];
     }
-  }
-  return total
-}
+  };
+  return total;
+};

@@ -1,7 +1,8 @@
 /*
 #1: Number of 1 Bits
 
-Write a function that takes the binary representation of an unsigned integer and returns the number of '1' bits it has (also known as the Hamming weight).
+Write a function that takes the binary representation of an unsigned integer and returns 
+the number of '1' bits it has (also known as the Hamming weight).
 
 Example 1:
 
@@ -13,17 +14,13 @@ Explanation: The input binary string 00000000000000000000000000001011 has a tota
 var hammingWeight = function(n) {
   let sum = 0;
   while (n != 0) {
-    sum += n & 1;
-    n = n >>> 1;
-  }
+    sum += n & 1; // This bitwise AND operation with 1 checks the least significant bit (LSB) of n. If the LSB is 1, the result is 1; if it's 0, the result is 0.
+    n = n >>> 1; // This bitwise right shift operation shifts all bits of n to the right by 1 position. 
+                // This essentially drops the previously checked LSB and moves the next bit into the LSB position for the next iteration.
+  } // once all 1's have been counted, the while loop terminates.
   return sum;
-};
-
-// Within the loop:
-// n & 1 is used to check if the least significant bit (LSB) of n is set to 1. The bitwise AND operation (&) with 1 checks whether the LSB is 1 or 0. If it's 1, then n & 1 evaluates to 1; otherwise, it evaluates to 0.
-// sum += n & 1 increments the sum variable by 1 if the LSB of n is 1. This is how the function counts the '1' bits.
-// After checking the LSB and updating the sum, n is shifted to the right by one position using the bitwise right shift operator (>>>). This shifts the bits to the right, effectively removing the LSB. This prepares n for the next iteration to check the next bit.
-
+}; // O(log n) time, O(1) space -- The number of iterations is proportional to the number of bits set to 1 in the binary 
+// representation of the input, which is log₂(n).
 
 /*
 #2: Hamming Distance
@@ -44,14 +41,15 @@ The above arrows point to positions where the corresponding bits are different.
 
 var hammingDistance = function(x, y) {
   return (x ^ y).toString(2).replace(/0/g, '').length;
-}
+} // O(log(max(x,y))) time and space
 
-//Inside the function:
-//(x ^ y) uses the bitwise XOR operation (^) between x and y. XOR returns a number where each bit is set to 1 if the corresponding bits in the operands are different, and 0 if they are the same. So, the result of (x ^ y) will have '1' bits in positions where x and y have different bits.
-//.toString(2) converts the result of the XOR operation to its binary representation. This step is necessary to work with the individual bits.
-//.replace(/0/g, '').length is used to calculate the Hamming distance:
-//replace(/0/g, '') removes all '0' bits from the binary string. This effectively leaves only the '1' bits, which represent the positions where the corresponding bits in x and y were different.
-//.length returns the count of remaining '1' bits, which is the Hamming distance.
+// It calculates the bitwise XOR (^) between x and y. This operation results in a new integer where the 
+// bits are set to 1 where the bits in x and y are different and 0 where they are the same.
+// The result of the XOR operation is then converted to a binary string using .toString(2). 
+// This binary string will contain '1's at positions where x and y had different bits and '0's where they had the same bits.
+// The .replace(/0/g, '').length part of the code counts the number of '1's in the binary string by using a regular expression
+// to remove all '0's and then calculates the length of the resulting string. This gives you the count of differing bits, which is the Hamming distance.
+
 
 /*
 #3: Reverse Bits
@@ -70,19 +68,21 @@ var reverseBits = function(n) {
   let count = 32;
 
   while (count--) {
-    result *= 2;
+    result *= 2; // The doubling of the result essentially makes room for the next bit to be added in its proper place, 
+                // effectively shifting the bits to the left.
     result += n & 1;
     n = n >> 1;
   }
   return result;
-};
+}; // O(1) time and space
 
 //Inside the function:
 //result is initialized to 0. This variable will store the reversed binary representation of the input integer.
 //count is initialized to 32, which is the number of bits in a 32-bit integer.
 //The function enters a while loop that iterates 32 times (once for each bit in the integer):
 //Inside the loop:
-//result *= 2 shifts the bits of the result to the left by 1 position. This effectively multiplies result by 2, which is the same as shifting all bits to the left by one position.
+//result *= 2 shifts the bits of the result to the left by 1 position. This effectively multiplies result by 2, 
+//which is the same as shifting all bits to the left by one position.
 //result += n & 1 adds the least significant bit (LSB) of n to the result. This effectively appends the current bit of n to the rightmost side of the result.
 //n = n >> 1 shifts the bits of n to the right by 1 position, effectively removing the LSB. This prepares n for the next iteration to process the next bit.
 
@@ -113,12 +113,14 @@ var generate = function(numRows) {
 };
 
 //Inside the function:
-//The code first checks whether numRows is falsy or less than or equal to 0. If this condition is true, an empty array is returned. This handles cases where numRows is not a valid positive integer.
+//The code first checks whether numRows is falsy or less than or equal to 0. 
+//If this condition is true, an empty array is returned. This handles cases where numRows is not a valid positive integer.
 //The variable pascal is initialized as a 2D array with the first row containing a single element, [1]. This represents the first row of Pascal's Triangle.
 //The function enters a for loop that iterates from 1 up to numRows - 1. This loop is responsible for generating the remaining rows of Pascal's Triangle.
 //Inside the loop:
 //prevRow stores the last row generated in the pascal array.
-//shiftLeft and shiftRight are arrays created by adding a 0 to the beginning or end of prevRow, respectively. This is done to simulate the shifting of elements for calculating the next row.
+//shiftLeft and shiftRight are arrays created by adding a 0 to the beginning or end of prevRow, respectively. 
+//This is done to simulate the shifting of elements for calculating the next row.
 //currentRow is generated by iterating through the shiftLeft array and adding the corresponding elements from shiftRight array. This step effectively calculates the new values for the current row based on the previous row.
 //The calculated currentRow is pushed to the pascal array, adding a new row to the triangle.
 //After all the rows have been generated, the pascal array containing the entire triangle is returned.
