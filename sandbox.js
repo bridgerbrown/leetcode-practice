@@ -1,115 +1,60 @@
-function houseRobber(nums) {
-  let before = prev = 0, temp;
+function twoSum(nums, target) {
+  const differences = {};
   for (let i = 0; i < nums.length; i++) {
-    temp = prev;
-    prev = Math.max(nums[i] + before, prev);
-    before = temp;
+    const diff = target - nums[i];
+    if (diff in differences) return [i, differences[diff]];
+    differences[nums[i]] = i;
   }
-  return prev;
 }
 
-function maxSubarray(nums) {
-  let prev = 0, max = -Infinity;
-  for (let i = 0; i < nums.length; i++) {
-    prev = Math.max(nums[i] + prev, nums[i]);
-    max = Math.max(prev, max);
-  }
-  return max;
+function longestCommonPrefix(strs) {
+  if (strs === undefined || strs.length === 0) return "";
+  return strs.reduce((prev, next) => {
+    let i = 0;
+    while (prev[i] && next[i] && prev[i] === next[i]) i++;
+    return prev.slice(0, i);
+  })
 }
 
-function bestTimeBuySellStock(prices) {
-  let buy = 0, sell = 1, max = 0;
-  while (sell < prices.length) {
-    if (prices[buy] < prices[sell]) {
-      let profit = prices[sell] - prices[buy];
-      max = Math.max(profit, max);
+function arrIntersection(nums1, nums2) {
+  const freq = {};
+  const intersection = [];
+
+  for (let num of nums1) {
+    freq[num] = (freq[num] || 0) + 1;
+  }
+  for (let num of nums2) {
+    if (freq[num] > 0) {
+      intersection.push(num);
+      freq[num]--;
+    }
+  }
+
+  return intersection;
+}
+
+function atoi(s) {
+  return Math.max(-(2 ** 31), Math.min(2 ** 31 - 1, parseInt(s) || 0));
+}
+
+function romanToInteger(s) {
+  const chars = {...};
+  let count = 0;
+  for (let i = 0; i < s.length; i++) {
+    if (chars[s[i]] < chars[s[i + 1]]) {
+      count -= chars[s[i]];
     } else {
-      buy = sell;
+      count += chars[s[i]];
     }
-    sell++;
   }
-  return max;
+  return count;
 }
 
-var Solution = function(nums) {
-  this.nums = nums;
-}
-Solution.prototype.reset = function() {
-  return this.nums;
-}
-Solution.prototype.shuffle = function() {
-  let shuffled = this.nums.slice();
-  let n = this.nums.length;
-  const swap = (arr, i, j) => {
-    let temp = arr[i];
-    arr[i] = arr[j];
-    arr[j] = temp;
-  }
-  for (let i = 0; i < n; i++) {
-    swap(shuffled, i, Math.floor(Math.random() * n));
-  }
-  return shuffled;
-}
-
-function firstBadVersion(n, bad) {
-  return function(n) {
-    let left = 0, right = n;
-    while (right - left !== 1) {
-      const mid = Math.floor((left + right) / 2);
-      isBadVersion(mid) ? right = mid : left = mid;
-    }
-    return right;
-  }
-}
-
-Solution.prototype.shuffle = function() {
-  let shuffled = this.nums.slice();
-  let n = this.nums.length;
-  const swap = (arr, i, j) => {
-    let temp = arr[i];
-    arr[i] = arr[j];
-    arr[j] = temp;
-  }
-  for (let i = 0; i < n; i++) {
-    swap(shuffled, i, Math.floor(Math.random() * n));
-  }
-  return shuffled;
-}
-
-function houseRobber(nums) {
-  let before = prev = 0, curr;
-  for (let i = 0; i < nums.length; i++) {
-    curr = prev;
-    prev = Math.max(nums[i] + before, prev);
-    before = curr;
-  }
-  return prev;
-}
-
-function firstBadVersion(n, bad) {
-  return function(n) {
-    let left = 0, right = n;
-    while (right - left !== 1) {
-      const mid = Math.floor((left + right) / 2);
-      isBadVersion(mid) ? right = mid : left = mid;
-    }
-    return right;
-  }
-}
-
-function maxSubarray(nums) {
-  let prev = 0, max = -Infinity;
-  for (let i = 0; i < nums.length; i++) {
-    prev = Math.max(nums[i], nums[i] + prev);
-    max = Math.max(prev, max);
-  }
-  return max;
-}
-function bestTimeBuySellStock(prices) {
+function stocks(prices) {
   let buy = 0, sell = 1, max = 0;
-  while (sell > prices.length) {
+  for (let i = 0; i < prices.length; i ++) {
+    let profit = prices[sell] - prices[buy];
     if (prices[buy] < prices[sell]) {
-      const profit = prices[sell] - prices[buy];
       max = Math.max(max, profit);
     } else {
       buy = sell;
@@ -119,27 +64,52 @@ function bestTimeBuySellStock(prices) {
   return max;
 }
 
-function bestTimeBuySellStock(prices) {
-  let buy = 0, sell = 1, max = 0;
-  while (sell > prices.length) {
-    if (prices[buy] < prices[sell]) {
-      let profit = prices[sell] - prices[buy];
-      max = Math.max(profit, max);
-    } else {
-      buy = sell;
+function maxProfit(prices) {
+  const count = 0;
+  for (let i = 1; i < prices.length; i++) {
+    if (prices[i] > prices[i - 1]) {
+      let profit = prices[i] - prices[i - 1];
+      count += profit;
     }
-    sell++;
   }
-  return max;
+  return count;
 }
 
-function houseRobber(nums) {
-  let before = prev = 0, curr;
-  for (let i = 0; i < nums.length; i++) {
-    curr = prev;
-    prev = Math.max(nums[i] + before, prev);
-    before = curr;
+function symmetricTree(root) {
+  if (!root) return true;
+  const DFS = (left, right) => {
+    if (!left && !right) return true;
+    if (!left && right || left && !right || left.val !== right.val) return false;
+    DFS(left.left, right.right), DFS(left.right, right.left);
   }
-  return prev;
+  return DFS(root.left, root.right);
 }
 
+function removeDuplicates(nums, k) {
+  const count = 1;
+  for (let i = 1; i < nums.length; i++) {
+    if (nums[i] !== nums[i - 1]) {
+      count++
+      nums[i] = nums[k];
+    } 
+  }
+  return count;
+}
+
+function validateBST(root) {
+  const BST = (root, min, max) => {
+    if (!root) return true;
+    if ((min !== null && root.val <= min) || (max !== null && root.val >= max)) return false;
+    BST(root.left, min, root), BST(root.right, root, max);
+  }
+  return BST(root, null, null);
+}
+
+function llCycle(head) {
+  let fast = head;
+  while (fast && fast.next) {
+    head = head.next, fast = fast.next.next;
+    if(head === fast) return true;
+  } 
+  return false;
+}
