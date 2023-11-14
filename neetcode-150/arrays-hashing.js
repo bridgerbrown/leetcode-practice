@@ -51,3 +51,63 @@ function topKFrequent(nums, k) {
   }
   return result;
 }
+
+/*
+#3: Product of Array Except Self
+Given an integer array nums, return an array answer such that answer[i] is equal to the 
+product of all the elements of nums except nums[i].
+The product of any prefix or suffix of nums is guaranteed to fit in a 32-bit integer.
+You must write an algorithm that runs in O(n) time and without using the division operation.
+
+Example 1:
+
+Input: nums = [1,2,3,4]
+Output: [24,12,8,6]
+*/
+
+function productExceptSelf(nums) {
+  const answer = [];
+  const leftMult = 1, rightMult = 1;
+  for (let i = nums.length - 1; i >= 0; i--) {
+    answer[i] = rightMult;
+    rightMult *= nums[i];
+  } // [24, 12, 4, 1]
+  // After this pass, answer contains the product of all elements to the right of each element.
+  for (let j = 0; j < nums.length; j++) {
+    answer[j] *= leftMult;
+    leftMult *= nums[j];
+  } // [24, 12, 8, 6]
+  // At each step, it multiplies answer[j] by the product of all elements to the left of nums[j]. 
+  // leftMult keeps track of the product of elements encountered so far.
+  return answer;
+};
+
+/*
+#4: Longest Consecutive Sequence
+
+Given an unsorted array of integers nums, return the length of the longest consecutive elements sequence.
+You must write an algorithm that runs in O(n) time.
+
+Example 1:
+
+Input: nums = [100,4,200,1,3,2]
+Output: 4
+Explanation: The longest consecutive elements sequence is [1, 2, 3, 4]. Therefore its length is 4.
+*/
+
+function longestConsecutive(nums) {
+  if (nums == null || nums.length === 0) return 0;
+  const set = new Set(nums);
+  let max = 0;
+
+  for (let num of set) {
+    if (set.has(num - 1)) continue;
+    let currNum = num, currMax = 1;
+
+    while (set.has(currNum + 1)) {
+      currNum++, currMax++;
+    }
+    max = Math.max(max, currMax);
+  }
+  return max;
+}
