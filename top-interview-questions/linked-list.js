@@ -121,6 +121,8 @@ var mergeTwoLists = function(list1, list2){
   return head.next
 } // O(n + m) time, O(1) space
 
+merged.next = list1 || list2;
+return head.next;
 
 /*
 #5: Palindrome Linked List

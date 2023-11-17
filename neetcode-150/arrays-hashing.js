@@ -45,10 +45,13 @@ function topKFrequent(nums, k) {
   for (let [num, freq] of freqMap) {
     bucket[freq] = (bucket[freq] || new Set()).add(num);
   }
+  // For each entry, it uses the frequency (freq) as an index to store the numbers with that frequency in the bucket array.
+  // Each entry in bucket is a Set containing numbers with the same frequency.
   for (let i = bucket.length - 1; i >= 0; i--) {
     if (bucket[i]) result.push(...bucket[i]);
     if (result.length === k) break;
   }
+  // Finally, it iterates through the bucket array in reverse order (from higher frequencies to lower).
   return result;
 }
 
@@ -67,7 +70,8 @@ Output: [24,12,8,6]
 
 function productExceptSelf(nums) {
   const answer = [];
-  const leftMult = 1, rightMult = 1;
+  const leftMult = 1;
+  const rightMult = 1;
   for (let i = nums.length - 1; i >= 0; i--) {
     answer[i] = rightMult;
     rightMult *= nums[i];
