@@ -107,3 +107,91 @@ function checkInclusion(s1, s2) {
 }
 // Time: O(n)
 // Space: O(1)
+
+/*
+#4: Minimum Window Substring
+
+Given two strings s and t of lengths m and n respectively, return the minimum window substring
+of s such that every character in t (including duplicates) is included in the window. 
+If there is no such substring, return the empty string "".
+The testcases will be generated such that the answer is unique.
+
+Example 1:
+
+Input: s = "ADOBECODEBANC", t = "ABC"
+Output: "BANC"
+Explanation: The minimum window substring "BANC" includes 'A', 'B', and 'C' from string t.
+*/
+
+function minWindow(s, t) {
+  let min = "", left = 0, right = -1;
+  let map = {};
+
+  t.split('').forEach(element => {
+    if (map[element] == null) map[element] = 1;
+    else map[element] = map[element] + 1;
+  });
+  
+  let count = Object.keys(map).length;
+
+  while (right <= s.length) {
+    if (count == 0) {
+      let current = s[left];
+      if (map[current] != null) map[current]++;
+      if (map[current] > 0) count++;
+      let temp = s.substring(left, right + 1);
+      if (min == "") min = temp;
+      else min = min.length < temp.length ? min : temp;
+      left++;
+    } else {
+      right++;
+      let current = s[right];
+      if (map[current] != null) map[current]--;
+      if (map[current] == 0) count--;
+    }
+  }
+  return min;
+}
+
+/*
+#5: Sliding Window Maximum
+
+You are given an array of integers nums, there is a sliding window of size k which is moving 
+from the very left of the array to the very right. You can only see the k numbers in the window. 
+Each time the sliding window moves right by one position.
+Return the max sliding window.
+
+Example 1:
+
+Input: nums = [1,3,-1,-3,5,3,6,7], k = 3
+Output: [3,3,5,5,6,7]
+Explanation: 
+Window position                Max
+---------------               -----
+[1  3  -1] -3  5  3  6  7       3
+ 1 [3  -1  -3] 5  3  6  7       3
+ 1  3 [-1  -3  5] 3  6  7       5
+ 1  3  -1 [-3  5  3] 6  7       5
+ 1  3  -1  -3 [5  3  6] 7       6
+ 1  3  -1  -3  5 [3  6  7]      7
+*/
+
+function maxSlidingWindow(nums, k) {
+  const q = [];
+  const res = [];
+  for (let i = 0; i < nums.length; i++) {
+    while(q && nums[q[q.length - 1]] <= nums[i]) {
+      q.pop();
+    }
+    q.push(i);
+    if (q[0] === i - k) {
+      q.shift();
+    }
+    if (i >= k - 1) {
+      res.push(nums[q[0]]);
+    }
+  }
+  return res;
+}
+
+
