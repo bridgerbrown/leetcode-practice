@@ -70,8 +70,8 @@ Output: [24,12,8,6]
 
 function productExceptSelf(nums) {
   const answer = [];
-  const leftMult = 1;
-  const rightMult = 1;
+  let leftMult = 1;
+  let rightMult = 1;
   for (let i = nums.length - 1; i >= 0; i--) {
     answer[i] = rightMult;
     rightMult *= nums[i];
