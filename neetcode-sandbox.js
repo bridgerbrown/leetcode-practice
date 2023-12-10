@@ -23,6 +23,31 @@ function groupAnagrams(strs) {
   return Object.values(r);
 }
 
+function productExceptSelf(nums) {
+  const result = [];
+  const left = 1;
+  const right = 1;
+
+  for (let i = nums.length - 1; i >= 0; i--) {
+    result[i] = right;
+    right *= nums[i];
+  }
+  for (let j = 0; j < nums.length; j++) {
+    result[j] *= left;
+    left *= nums[j];
+  }
+  return result;
+}
+
+function groupAnagrams(strs) {
+  let r = {};
+  for (let str of strs) {
+    let letters = str.split("").sort().join("");
+    r[letters] ? r[letters].push(str) : r[letters] = [str];
+  }
+  return Object.values(r);
+}
+
 function topKFrequent(nums, k) {
   const freq = new Map();
   const bucket = [];
