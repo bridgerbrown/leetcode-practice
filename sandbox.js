@@ -1,165 +1,126 @@
-function maxDepth(root) {
-  if (!root) return null;
-  let max = Math.max(maxDepth(root.left), maxDepth(root.right));
-  return max + 1;
+var Solution = function(nums) {
+  this.nums = nums;
 }
-
-function unique(nums) {
-  const set = new Set();
-  for (let num of nums) {
-    set.has(num) ? set.delete(num) : set.add(num);
-  }
-  return set.values().next().value;
+Solution.prototype.reset = function() {
+  return this.nums;
 }
-
-function convertToBST(nums) {
-  function BST(left, right) {
-    if (left > right) return null;
-    const mid = Math.floor((left + right) / 2);
-    const curr = new Node(nums[mid]);
-    curr.left = BST(left, mid - 1);
-    curr.right = BST(mid + 1, right);
-    return curr;
+Solution.prototype.shuffle = function() {
+  const shuffled = this.nums.slice();
+  const n = shuffled.length;
+  const swap = (arr, i, j) => {
+    let temp = arr[i];
+    arr[i] = arr[j];
+    arr[j] = temp;
   };
-  return BST(0, nums.length - 1);
-}
-
-function firstUniqueStr(s) {
-  const freq = {};
-  for (let char of s) {
-    freq[char] = (freq[char] || 0) + 1;
-  };
-  for (let i = 0; i < s.length; i++) {
-    if (freq[i] === 1) return i; 
-  };
-  return -1;
-}
-
-function revLL(head) {
-  let prev = null, cur = head;
-  while (cur) {
-    let temp = cur.next;
-    cur.next = prev;
-    prev = cur;
-    cur = temp;
+  for (let i = 0; i < n; i++) {
+    swap(shuffled, i, Math.floor(Math.random() * n));
   }
-  return prev;
+  return shuffled;
 }
 
-function revLL(head) {
-  let prev = null, cur = head;
-  while (cur) {
-    let temp = cur.next;
-    cur.next = prev;
-    prev = cur;
-    cur = temp;
-  }
-  return prev;
-}
-
-function findUnique(nums) {
-  const set = new Set();
-  for (let num of nums) {
-    set.has(num) ? set.delete(num) : set.add(num);
-  }
-  return set.values().next().value;
-}
-
-function firstUniqueStr(s) {
+function firstUnique(s) {
   const freq = {};
   for (let char of s) {
     freq[char] = (freq[char] || 0) + 1;
   }
   for (let i = 0; i < s.length; i++) {
-    if (freq[i] === 1) return i; 
+    if (freq[s[i]] === 1) return i;
   }
   return -1;
 }
 
-function convertToBST(nums) {
-  function BST(left, right) {
-    if (left > right) return null
-    const mid = Math.floor((left + right) / 2);
-    const cur = new Node(nums[mid]);
-    cur.left = BST(left, mid - 1);
-    cur.right = BST(mid + 1, right);
-    return cur;
-  }
-  BST(0, nums.length - 1);
-}
-
-function maxDepth(root) {
-  if (!root) return null;
-  let max = Math.max(maxDepth(root.left), maxDepth(root.right));
-  return max + 1;
-}
-
-function countPrimes(n) {
-  let count = 0;
-  let primes = [];
-  if (n <= 1) return 0;
-  for (let i = 2; i < n; i++) {
-    if (primes[i] == undefined) {
-      primes[i] = true;
-      count++;
-      for (let j = 2; j * i < n; j++) {
-        primes[i * j] = false;
-      }
+function rotateArray(nums, k) {
+  k %= nums.length;
+  const reverse = (i, j) => {
+    while (i < j) {
+      let temp = nums[i];
+      nums[i] = nums[j];
+      nums[j] = temp;
+      i++, j--;
     }
   }
-  return count;
+  reverse(0, nums.length - 1);
+  reverse(0, k - 1);
+  reverse(k, nums.length - 1);
 }
 
-function strStr(haystack, needle) {
-  if (!needle.length) return 0;
-  return haystack.indexOf(needle);
-}
-
-function BTLevelTraversal(root) {
-  const results = [];
-  if (!root) return results;
-  function DFS(node, level) {
-    results[level] = [...(results[level] || []), node.val];
-    if (node.left) DFS(node.left, level + 1);
-    if (node.right) DFS(node.right, level + 1);
+function arrIntersection(nums1, nums2) {
+  const freq = {};
+  const intersection = [];
+  for (let num of nums1) {
+    freq[num] = (freq[num] || 0) + 1;
   }
-  DFS(root, 0);
-  return results;
+  for (let num of nums2) {
+    if (freq[num] > 0) {
+      intersection.push(num);
+      freq[num]--
+    }
+  }
+  return intersection;
 }
 
-var MinStack = function() {
-  this.minStack = [];
-  this.container = [];
-}
-MinStack.prototype.push = function(val) {
-  this.container.push(val);
-  if (this.minStack.length === 0 || val <= this.minStack[this.minStack.length - 1]) {
-    this.minStack.push(val);
+function missingNumber(nums) {
+  let sum = 0, total = 0;
+  for (let i = 0; i < nums.length; i++) {
+    sum += nums[i];
+    total += i + 1;
   }
-}
-MinStack.prototype.pop = function() {
-  let val = this.container.pop();
-  if (val === this.minStack[this.minStack.length - 1]) {
-    this.minStack.pop();
-  }
-}
-MinStack.prototype.top = function() {
-  return this.container[this.container.length - 1];
-}
-MinStack.prototype.getMin = function() {
-  return this.minStack[this.minStack.length - 1];
+  return total - sum;
 }
 
-function pascals(numRows) {
-  if (!numRows || numRows <= 0) return [];
-  const pascal = [[1]];
+function longestCommonPrefix(strs) {
+  if (strs === undefined || strs.length === 0) return "";
+  return strs.reduce((prev, next) => {
+    let i = 0;
+    while (prev[i] && next[i] && prev[i] === next[i]) i++;
+    return prev.slice(0, i);
+  })
+}
 
-  for (let i = 1; i < numRows.length; i++) {
-    const prevRow = pascal[pascal.length - 1];
-    const left = [...prevRow, 0];
-    const right = [0, ...prevRow];
-    const curr = left.map((r, i) => r + right[i]);
-    pascal.push(curr);
+function duplicates(nums) {
+  const set = new Set();
+  for (let num of nums) {
+    if (set.has(num)) {
+      return true;
+    } else {
+      set.add(num);
+    }
   }
-  return pascal;
+  return false;
+}
+
+function cyclicLL(head, pos) {
+  let fast = slow = head;
+  while (fast && fast.next) {
+    fast = fast.next.next, slow = slow.next;
+    if (fast == slow) return true;
+  }
+  return false;
+}
+
+function missingNumber(nums) {
+  let total = 0, sum = 0;
+  for (let i = 0; i < nums.length; i++) {
+    sum += nums[i];
+    total += i + 1;
+  }
+  return total - sum;
+}
+
+function mergeTwoLL(list1, list2) {
+  let merged = new Node();
+  let head = merged;
+  while (list1 && list2) {
+    if (list1.val < list2.val) {
+      merged.next = new Node(list1.val);
+      list1 = list1.next;
+    } else {
+      merged.next = new Node(list2.val);
+      list2 = list2.next;
+    }
+    merged = merged.next;
+  }
+
+  merged.next = list1 || list2;
+  return head.next;
 }
