@@ -50,7 +50,7 @@ var countPrimes = function(n){
   if (n <= 1) return 0;
 
   for (let i = 2; i < n; i++){
-    if(primes[i] == undefined){
+    if (primes[i] == undefined){
       primes[i] = true;
       count++;
       for (let j = 2; j * i < n; j++){
