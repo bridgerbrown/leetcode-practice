@@ -180,3 +180,18 @@ function countPrimes(n) {
 function atoi(s) {
   return Math.max(-(2 ** 31), Math.min(2 ** 31 - 1, parseInt(s) || 0));
 }
+
+function countPrimes(n) {
+  const count = 0;
+  const primes = [];
+  if (n <= 1) return 0;
+  for (let i = 2; i < n; i++) {
+    if (primes[i] === undefined) {
+      primes[i] = true;
+      count++;
+      for (let j = 2; j * i < n; j++) {
+        primes[j * i] = false;
+      }
+    }
+  }
+}

@@ -52,23 +52,24 @@ Explanation: Replace the two 'A's with two 'B's or vice versa.
 function characterReplacement(s, k) {
   let results = 0;
   let count = new Map();
-  let l = 0;
+  let left = 0;
   
-  for (let r = 0; r < s.length; r++) {
-    let len = r - l + 1;
-    count.set(s[r], 1 + (count.get(s[r]) || 0));
+  for (let right = 0; right < s.length; right++) {
+    let wind = right - left + 1;
+    count.set(s[right], 1 + (count.get(s[right]) || 0));
 
-    if ((len - Math.max(...count.values())) > k) {
-      count.set(s[l], count.get(s[l]) - 1);
-      l++;
+    if ((wind - Math.max(...count.values())) > k) {
+      count.set(s[left], count.get(s[left]) - 1);
+      left++;
     }
-    len = r - l + 1;
-    results = Math.max(results, len);
+    wind = right - left + 1;
+    results = Math.max(results, wind);
   }
   return results;
 }
 // Time: O(n)
 // Space: O(1)
+// The core idea is to maintain a valid window by adjusting the left pointer whenever the number of replacements required exceeds the allowed limit (k).
 
 /*
 #3: Permutation in String
