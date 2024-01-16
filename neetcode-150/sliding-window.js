@@ -49,24 +49,39 @@ Output: 4
 Explanation: Replace the two 'A's with two 'B's or vice versa.
 */
 
-function characterReplacement(s, k) {
-  let results = 0;
-  let count = new Map();
-  let left = 0;
-  
-  for (let right = 0; right < s.length; right++) {
-    let wind = right - left + 1;
-    count.set(s[right], 1 + (count.get(s[right]) || 0));
+function longestRepeatingChar(s, k) {
+  // Initialize variables
+  let result = 0;           // To store the length of the longest repeating substring
+  let count = new Map();    // To store the count of characters in the current window
+  let left = 0;             // Left pointer for the sliding window
 
+  // Iterate over the string using the right pointer
+  for (let right = 0; right < s.length; right++) {
+    // Calculate the length of the current window
+    let wind = right - left + 1;
+
+    // Update the count of the character at the right pointer
+    count.set(s[right], (count.get(s[right]) || 0) + 1);
+
+    // Check if the number of characters outside the most frequent character
+    // exceeds the allowed replacements (k)
     if ((wind - Math.max(...count.values())) > k) {
+      // Move the left pointer to shrink the window
       count.set(s[left], count.get(s[left]) - 1);
       left++;
     }
+
+    // Recalculate the window length after potential shrinking
     wind = right - left + 1;
-    results = Math.max(results, wind);
+
+    // Update the result with the maximum window length
+    result = Math.max(result, wind);
   }
-  return results;
+
+  // Return the length of the longest repeating substring
+  return result;
 }
+
 // Time: O(n)
 // Space: O(1)
 // The core idea is to maintain a valid window by adjusting the left pointer whenever the number of replacements required exceeds the allowed limit (k).
