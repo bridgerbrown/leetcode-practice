@@ -84,7 +84,8 @@ function longestRepeatingChar(s, k) {
 
 // Time: O(n)
 // Space: O(1)
-// The core idea is to maintain a valid window by adjusting the left pointer whenever the number of replacements required exceeds the allowed limit (k).
+// The core idea is to maintain a valid window by adjusting the left pointer
+// whenever the number of replacements required exceeds the allowed limit (k).
 
 /*
 #3: Permutation in String
@@ -102,23 +103,42 @@ Explanation: s2 contains one permutation of s1 ("ba").
 */
 
 function checkInclusion(s1, s2) {
+  // Step 1: Length Check
+  // If the length of s1 is greater than s2, it's not a permutation
   if (s1.length > s2.length) return false;
+
+  // Step 2: Character Frequency Map
+  // Create a frequency map (neededChar) for characters in s1
   let neededChar = {};
   for (let i = 0; i < s1.length; i++) {
     neededChar[s1[i]] = (neededChar[s1[i]] || 0) + 1;
   }
+
+  // Step 3: Sliding Window Technique
+  // Initialize pointers (left and right) and requiredLength
   let left = 0, right = 0, requiredLength = s1.length;
   while (right < s2.length) {
+    // Update requiredLength and frequency map based on the current character
     if (neededChar[s2[right]] > 0) requiredLength--;
     neededChar[s2[right]]--;
     right++;
+
+    // Step 4: Check for Permutation
+    // If requiredLength becomes zero, s1 is a permutation in the current window
     if (requiredLength === 0) return true;
+
+    // Step 5: Adjust Window Size
+    // If the window size equals the length of s1, adjust the window
     if (right - left === s1.length) {
+      // Restore frequency map and requiredLength
       if (neededChar[s2[left]] >= 0) requiredLength++;
       neededChar[s2[left]]++;
       left++;
     }
   }
+
+  // Step 6: Result
+  // If no permutation is found, return false
   return false;
 }
 // Time: O(n)
@@ -140,32 +160,46 @@ Explanation: The minimum window substring "BANC" includes 'A', 'B', and 'C' from
 */
 
 function minWindow(s, t) {
+  // Initialize variables for the minimum window (min), left and right pointers
   let min = "", left = 0, right = -1;
-  let map = {};
-
-  t.split('').forEach(element => {
-    if (map[element] == null) map[element] = 1;
-    else map[element] = map[element] + 1;
-  });
   
+  // Create a frequency map (map) for characters in string t
+  let map = {};
+  t.split('').forEach(element => {
+    // Increment the frequency count or initialize to 1
+    map[element] ? map[element] = map[element] + 1 : map[element] = 1;
+  });
+
+  // Count of unique characters needed in the window
   let count = Object.keys(map).length;
 
+  // Sliding Window Technique
   while (right <= s.length) {
+    // Step 1: Check if a valid window is found (count == 0)
     if (count == 0) {
+      // Step 2: Shrink the Window (Move the left pointer)
       let current = s[left];
       if (map[current] != null) map[current]++;
       if (map[current] > 0) count++;
+
+      // Get the current substring
       let temp = s.substring(left, right + 1);
+
+      // Step 3: Update the Minimum Window
       if (min == "") min = temp;
       else min = min.length < temp.length ? min : temp;
+      
       left++;
     } else {
+      // Step 4: Expand the Window (Move the right pointer)
       right++;
       let current = s[right];
       if (map[current] != null) map[current]--;
       if (map[current] == 0) count--;
     }
   }
+
+  // Step 5: Return the Minimum Window found during the sliding window process
   return min;
 }
 
@@ -193,21 +227,30 @@ Window position                Max
 */
 
 function maxSlidingWindow(nums, k) {
+  // Step 1: Initialize two arrays, q for storing indices and res for storing results
   const q = [];
   const res = [];
+
+  // Step 2: Iterate through the nums array
   for (let i = 0; i < nums.length; i++) {
-    while(q && nums[q[q.length - 1]] <= nums[i]) {
+    // Step 3: Maintain a decreasing order in the q array
+    while(q.length && nums[q[q.length - 1]] <= nums[i]) {
       q.pop();
     }
+    // Push the current index into the q array
     q.push(i);
+
+    // Step 4: Remove the leftmost element if it's out of the window
     if (q[0] === i - k) {
       q.shift();
     }
+
+    // Step 5: Record the maximum element for each window after reaching size k
     if (i >= k - 1) {
       res.push(nums[q[0]]);
     }
   }
+
+  // Step 6: Return the array of maximum elements for each window
   return res;
 }
-
-
