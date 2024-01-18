@@ -227,7 +227,8 @@ Window position                Max
 */
 
 function maxSlidingWindow(nums, k) {
-  // Step 1: Initialize two arrays, q for storing indices and res for storing results
+  // Step 1: Initialize two arrays, q for storing indices and 
+  // res for storing results
   const q = [];
   const res = [];
 
@@ -245,7 +246,8 @@ function maxSlidingWindow(nums, k) {
       q.shift();
     }
 
-    // Step 5: Record the maximum element for each window after reaching size k
+    // Step 5: Record the maximum element for each window after reaching 
+    // size k
     if (i >= k - 1) {
       res.push(nums[q[0]]);
     }

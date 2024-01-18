@@ -79,7 +79,7 @@ function productExceptSelf(nums) {
   // After this pass, answer contains the product of all elements to the right of each element.
   for (let j = 0; j < nums.length; j++) {
     answer[j] *= leftMult;
-    leftMult *= nums[j];
+    leftMult *= nums[j]; 
   } // [24, 12, 8, 6]
   // At each step, it multiplies answer[j] by the product of all elements to the left of nums[j]. 
   // leftMult keeps track of the product of elements encountered so far.
