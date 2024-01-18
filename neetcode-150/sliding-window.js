@@ -49,37 +49,32 @@ Output: 4
 Explanation: Replace the two 'A's with two 'B's or vice versa.
 */
 
-function longestRepeatingChar(s, k) {
-  // Initialize variables
-  let result = 0;           // To store the length of the longest repeating substring
-  let count = new Map();    // To store the count of characters in the current window
-  let left = 0;             // Left pointer for the sliding window
+function longestRepeatingReplacement(s, k) {
+  let count = 0;
+  let freq = new Map();
+  let l = 0;
 
   // Iterate over the string using the right pointer
-  for (let right = 0; right < s.length; right++) {
+  for (let r = 0; r < s.length; r++) {
     // Calculate the length of the current window
-    let wind = right - left + 1;
-
+    let win = r - l + 1;
     // Update the count of the character at the right pointer
-    count.set(s[right], (count.get(s[right]) || 0) + 1);
+    freq.set(s[r], (freq.get(s[r]) || 0) + 1);
 
     // Check if the number of characters outside the most frequent character
     // exceeds the allowed replacements (k)
-    if ((wind - Math.max(...count.values())) > k) {
+    if ((win - Math.max(...freq.values())) > k) {
       // Move the left pointer to shrink the window
-      count.set(s[left], count.get(s[left]) - 1);
-      left++;
+      freq.set(s[l], freq.get(s[l]) - 1);
+      l++;
     }
 
     // Recalculate the window length after potential shrinking
-    wind = right - left + 1;
-
+    win = r - l + 1;
     // Update the result with the maximum window length
-    result = Math.max(result, wind);
+    count = Math.max(count, win);
   }
-
-  // Return the length of the longest repeating substring
-  return result;
+  return count;
 }
 
 // Time: O(n)
@@ -124,11 +119,14 @@ function checkInclusion(s1, s2) {
     right++;
 
     // Step 4: Check for Permutation
-    // If requiredLength becomes zero, s1 is a permutation in the current window
+    // If requiredLength becomes zero, s1 is a permutation in the 
+    // current window
     if (requiredLength === 0) return true;
 
     // Step 5: Adjust Window Size
     // If the window size equals the length of s1, adjust the window
+    // Since the requiredLength isnt at 0, if the window is the 
+    // s1.length, you need to move the window and try again
     if (right - left === s1.length) {
       // Restore frequency map and requiredLength
       if (neededChar[s2[left]] >= 0) requiredLength++;
@@ -159,47 +157,44 @@ Output: "BANC"
 Explanation: The minimum window substring "BANC" includes 'A', 'B', and 'C' from string t.
 */
 
-function minWindow(s, t) {
+function minWind(s, t) {
   // Initialize variables for the minimum window (min), left and right pointers
-  let min = "", left = 0, right = -1;
-  
+  let min = "", l = 0, r = -1;
   // Create a frequency map (map) for characters in string t
-  let map = {};
-  t.split('').forEach(element => {
+  let freq = {};
+
+  t.split('').forEach(e => {
     // Increment the frequency count or initialize to 1
-    map[element] ? map[element] = map[element] + 1 : map[element] = 1;
+    freq[e] ? freq[e] = freq[e] + 1 : freq[e] = 1;
   });
 
   // Count of unique characters needed in the window
-  let count = Object.keys(map).length;
+  let uniqueCount = Object.keys(freq).length;
 
-  // Sliding Window Technique
-  while (right <= s.length) {
+  while (r <= s.length) {
     // Step 1: Check if a valid window is found (count == 0)
-    if (count == 0) {
+    if (uniqueCount == 0) {
       // Step 2: Shrink the Window (Move the left pointer)
-      let current = s[left];
-      if (map[current] != null) map[current]++;
-      if (map[current] > 0) count++;
+      let curr = s[l];
+      if (freq[curr] != null) freq[curr]++;
+      if (freq[curr] > 0) uniqueCount++;
 
       // Get the current substring
-      let temp = s.substring(left, right + 1);
+      let temp = s.substring(l, r + 1);
 
       // Step 3: Update the Minimum Window
       if (min == "") min = temp;
       else min = min.length < temp.length ? min : temp;
-      
-      left++;
+
+      l++
     } else {
       // Step 4: Expand the Window (Move the right pointer)
-      right++;
-      let current = s[right];
-      if (map[current] != null) map[current]--;
-      if (map[current] == 0) count--;
+      r++;
+      let curr = s[r];
+      if (freq[curr] != null) freq[curr]--;
+      if (freq[curr] == 0) uniqueCount--;
     }
   }
-
-  // Step 5: Return the Minimum Window found during the sliding window process
   return min;
 }
 
