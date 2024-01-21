@@ -251,3 +251,4 @@ function maxSlidingWindow(nums, k) {
   // Step 6: Return the array of maximum elements for each window
   return res;
 }
+// watch an explanation on this lol
