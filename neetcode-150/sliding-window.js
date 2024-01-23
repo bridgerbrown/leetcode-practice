@@ -61,8 +61,9 @@ function longestRepeatingReplacement(s, k) {
     // Update the count of the character at the right pointer
     freq.set(s[r], (freq.get(s[r]) || 0) + 1);
 
-    // Check if the number of characters outside the most frequent character
-    // exceeds the allowed replacements (k)
+    // win - max char will remain with the other chars in the window,
+    // so if the amount of those is bigger than k, you have to shrink
+    // its utilizing subtraction of the window with leftover freq
     if ((win - Math.max(...freq.values())) > k) {
       // Move the left pointer to shrink the window
       freq.set(s[l], freq.get(s[l]) - 1);
@@ -98,45 +99,32 @@ Explanation: s2 contains one permutation of s1 ("ba").
 */
 
 function checkInclusion(s1, s2) {
-  // Step 1: Length Check
-  // If the length of s1 is greater than s2, it's not a permutation
   if (s1.length > s2.length) return false;
 
-  // Step 2: Character Frequency Map
-  // Create a frequency map (neededChar) for characters in s1
-  let neededChar = {};
-  for (let i = 0; i < s1.length; i++) {
-    neededChar[s1[i]] = (neededChar[s1[i]] || 0) + 1;
+  const freq = {};
+  for (let char of s1) {
+    freq[char] = (freq[char] || 0) + 1;
   }
 
-  // Step 3: Sliding Window Technique
-  // Initialize pointers (left and right) and requiredLength
-  let left = 0, right = 0, requiredLength = s1.length;
-  while (right < s2.length) {
-    // Update requiredLength and frequency map based on the current character
-    if (neededChar[s2[right]] > 0) requiredLength--;
-    neededChar[s2[right]]--;
-    right++;
+  let l = 0, r = 0, neededLen = s1.length;
+  while (r < s2.length) {
+    let curr = s2[r];
+    if (freq[s2[r]] > 0) neededLen--;
+    freq[curr]--;
+    r++;
 
-    // Step 4: Check for Permutation
-    // If requiredLength becomes zero, s1 is a permutation in the 
-    // current window
-    if (requiredLength === 0) return true;
+    if (neededLen === 0) return true;
 
-    // Step 5: Adjust Window Size
     // If the window size equals the length of s1, adjust the window
     // Since the requiredLength isnt at 0, if the window is the 
     // s1.length, you need to move the window and try again
-    if (right - left === s1.length) {
-      // Restore frequency map and requiredLength
-      if (neededChar[s2[left]] >= 0) requiredLength++;
-      neededChar[s2[left]]++;
-      left++;
+    if (r - l === s1.length) {
+      curr = s2[l];
+      if (freq[curr] >= 0) neededLen++;
+      freq[curr]++;
+      l++;
     }
   }
-
-  // Step 6: Result
-  // If no permutation is found, return false
   return false;
 }
 // Time: O(n)
@@ -171,28 +159,25 @@ function minWind(s, t) {
   // Count of unique characters needed in the window
   let uniqueCount = Object.keys(freq).length;
 
-  while (r <= s.length) {
+  while (r < s.length) {
     // Step 1: Check if a valid window is found (count == 0)
-    if (uniqueCount == 0) {
+    if (uniqueCount === 0) {
       // Step 2: Shrink the Window (Move the left pointer)
       let curr = s[l];
-      if (freq[curr] != null) freq[curr]++;
+      if (freq[curr] !== undefined) freq[curr]++;
       if (freq[curr] > 0) uniqueCount++;
 
       // Get the current substring
       let temp = s.substring(l, r + 1);
-
       // Step 3: Update the Minimum Window
-      if (min == "") min = temp;
-      else min = min.length < temp.length ? min : temp;
-
+      min = (min === "" || min.length < temp.length) ? min : temp;
       l++
     } else {
       // Step 4: Expand the Window (Move the right pointer)
       r++;
       let curr = s[r];
-      if (freq[curr] != null) freq[curr]--;
-      if (freq[curr] == 0) uniqueCount--;
+      if (freq[curr] !== undefined) freq[curr]--;
+      if (freq[curr] === 0) uniqueCount--;
     }
   }
   return min;
@@ -224,31 +209,44 @@ Window position                Max
 function maxSlidingWindow(nums, k) {
   // Step 1: Initialize two arrays, q for storing indices and 
   // res for storing results
-  const q = [];
+  const idx = [];
   const res = [];
 
   // Step 2: Iterate through the nums array
   for (let i = 0; i < nums.length; i++) {
     // Step 3: Maintain a decreasing order in the q array
-    while(q.length && nums[q[q.length - 1]] <= nums[i]) {
-      q.pop();
+    while(idx.length && nums[idx[idx.length - 1]] <= nums[i]) {
+      idx.pop();
     }
     // Push the current index into the q array
-    q.push(i);
+    idx.push(i);
 
     // Step 4: Remove the leftmost element if it's out of the window
-    if (q[0] === i - k) {
-      q.shift();
+    if (idx[0] === i - k) {
+      idx.shift();
     }
 
     // Step 5: Record the maximum element for each window after reaching 
     // size k
     if (i >= k - 1) {
-      res.push(nums[q[0]]);
+      res.push(nums[idx[0]]);
     }
   }
 
   // Step 6: Return the array of maximum elements for each window
   return res;
 }
-// watch an explanation on this lol
+
+function slideWinMax(nums, k) {
+  const idx = [];
+  const res = [];
+  for (let i = 0; i < nums.length; i++) {
+    while (idx.length && nums[idx[idx.length - 1]] <= nums[i]) {
+      idx.pop();
+    }
+    idx.push();
+    if (idx[0] === i - k) idx.shift();
+    if (i >= k - 1) res.push(nums[idx[0]]);
+  }
+  return res;
+}
