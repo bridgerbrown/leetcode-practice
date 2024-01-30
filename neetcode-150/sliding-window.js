@@ -63,7 +63,7 @@ function longestRepeatingReplacement(s, k) {
 
     // win - max char will remain with the other chars in the window,
     // so if the amount of those is bigger than k, you have to shrink
-    // its utilizing subtraction of the window with leftover freq
+    // it, utilizing subtraction of the window with leftover freq
     if ((win - Math.max(...freq.values())) > k) {
       // Move the left pointer to shrink the window
       freq.set(s[l], freq.get(s[l]) - 1);
@@ -227,7 +227,7 @@ function maxSlidingWindow(nums, k) {
     }
 
     // Step 5: Record the maximum element for each window after reaching 
-    // size k
+    // size k; when the wind is actually present in the array
     if (i >= k - 1) {
       res.push(nums[idx[0]]);
     }

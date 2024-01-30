@@ -1,99 +1,92 @@
-function minWindSub(s, t) {
+function slideWinMax(nums, k) {
+  const idx = [];
+  const r = [];
+  for (let i = 0; i < nums.length; i++) {
+    while (idx.length && nums[idx[idx.length - 1]] <= nums[i]) {
+      idx.pop();
+    }
+    idx.push(i);
+    if (idx[0] === i - k) {
+      idx.shift();
+    }
+
+    if (i >= k - 1) {
+      r.push(idx[idx.length - 1]);
+    }
+  }
+  return r;
+}
+
+function productExceptSelf(nums) {
+  const res = [];
+  const l = 1;
+  const r = 1;
+  for (let j = nums.length - 1; j >= 0; j--) {
+    res = r;
+    r *= nums[i];
+  }
+  for (let i = 0; i < nums.length - 1; i++) {
+    res *= l;
+    l *= nums[i];
+  }
+  return res;
+}
+
+function minWinSub(s, t) {
   const freq = {};
   const min = "";
   for (let char of t) {
     freq[char] = (freq[char] || 0) + 1;
   }
+  const unique = Object.keys(freq).length;
   let l = 0, r = -1;
-  let uniqueChars = Object.keys(freq).length;
-  while (r <= s.length) {
-    if (uniqueChars == 0) {
+  for (let char of s) {
+    if (unique === 0) {
       let curr = s[l];
       if (freq[curr] !== undefined) freq[curr]++;
-      if (freq[curr > 0]) uniqueChars++;
+      if (freq[curr] > 0) unique++;
 
-      let temp = s.substrin(l, r + 1);
-      min = (min === "" || min.length < temp.length) ? min : temp;
+      let temp = s.substring(l, r + 1);
+      min.length < temp.length ? min = min : min = temp;
       l++;
     } else {
       r++;
       let curr = s[r];
-      if (freq[curr] !== null) freq[curr]--;
-      if (freq[curr] == 0) uniqueChars--;
+      if (freq[curr] !== undefined) freq[curr]--;
+      if (freq[curr] === 0) unique--;
     }
   }
   return min;
 }
 
-function permInStr(s1, s2) {
-  let neededLen = s1.length;
-  const freq = {};
-  for (let ch of s1) {
-    freq[ch] = (freq[ch] || 0) + 1;
-  }
-  let l = 0, r = 0;
-  while (r <= s2.length) {
-    let curr = s2[r];
-    if (freq[curr] > 0) neededLen--;
-    freq[curr]--;
-    r++;
-
-    if (neededLen === 0) return true;
-
-    if (r - l === s1.length) {
-      curr = s2[l];
-      if (freq[curr] >= 0) neededLen++;
-      freq[curr]++;
-      l++
-    }
-  }
-  return false;
-}
-
-function slideWinMax(nums, k) {
-  const idx = [];
-  const res = [];
+function longestConsecutiveSeq(nums) {
+  const set = new Set(nums);
+  const max = 0;
   for (let i = 0; i < nums.length; i++) {
-    while (idx.length && nums[idx[idx.length - 1]] <= nums[i]) {
-      idx.pop();
+    if (set.has(nums[i] - 1)) continue;
+    set.add(nums[i])
+    let currNum = nums[i], currMax = 0;
+    while (set.has(currNum + 1)) {
+      currMax++, currNum++;
     }
-    idx.push();
-    if (idx[0] === i - k) idx.shift();
-    if (i >= k - 1) res.push(nums[idx[0]]);
+    Math.max(currMax, max);
   }
-  return res;
+  return max;
 }
 
-function productOfArrExcSelf(nums) {
-  let lMult = 1, rMult = 1;
-  const res = [];
-  for (let i = nums.length - 1; i > 0; i--) {
-    res[i] = rMult; 
-    rMult *= nums[i];
-  }
-  for (let j = 0; j <= nums.length - 1; j++) {
-    res[j] *= lMult;
-    lMult *= nums[j];
-  }
-  return res;
-}
-
-function longestCharRep(s, k) {
-  const freq = new Map();
+function longestRepeatCharRep(s, k) {
   let count = 0;
-  let l = 0, r = 0;
-  while (r <= s.length) {
-    let win = r - l + 1;
-    let curr = s[r];
-    freq.set(curr, (freq.get(curr) || 0) + 1);
-    if ((win - Math.max(...freq.values())) > k) {
-      curr = s[l];
-      freq.set(curr, freq.get(curr) - 1);
+  const freq = new Map();
+  let l = 0;
+  for (let r = 0; r < s.length; r++) {
+    let wind = r - l + 1;
+    freq.set(s[r], (freq.get(s[r]) || 0) + 1);
+    if (wind - Math.max(...freq.values()) > k) {
+      freq.set(s[l], freq.get(s[l] - 1));
       l++;
     }
-
-    win = r - l + 1;
-    count = Math.max(count, win);
+    wind = r - l + 1;
+    count = Math.max(count, wind);
   }
   return count;
 }
