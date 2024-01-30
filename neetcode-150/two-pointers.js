@@ -57,12 +57,12 @@ Notice that the order of the output and the order of the triplets does not matte
 
 function threeSum(nums) {
   const results = [];
-  nums.sort((a, b) => a - b);
+  nums.sort((a, b) => a - b); // necessary for two pointers technique
 
   for (let i = 0; i < nums.length; i++){
     const a = nums[i];
-    if (a > 0) break;
-    if (i > 0 && a === nums[i - 1]) continue;
+    if (a > 0) break; // if asc sort, if positive then remaining elements will be positive
+    if (i > 0 && a === nums[i - 1]) continue; // pass duplicates
 
     let l = i + 1;
     let r = nums.length - 1;
@@ -75,7 +75,7 @@ function threeSum(nums) {
       } else {
         results.push([a, nums[l], nums[r]]);
         l++, r--;
-        while (nums[l] === nums[l - 1] && l < r) {
+        while (nums[l] === nums[l - 1] && l < r) { // keep going, and avoid duplicates
           l++;
         }
       }
@@ -91,8 +91,8 @@ function threeSum(nums) {
 
 You are given an integer array height of length n. There are n vertical lines drawn such that 
 the two endpoints of the ith line are (i, 0) and (i, height[i]).
-Find two lines that together with the x-axis form a container, such that the container contains the most water.
-Return the maximum amount of water a container can store.
+Find two lines that together with the x-axis form a container, such that the container contains 
+the most water. Return the maximum amount of water a container can store.
 Notice that you may not slant the container.
 
 Example 1:
@@ -104,25 +104,20 @@ In this case, the max area of water (blue section) the container can contain is 
 */
 
 function maxArea(height) {
-  let [left, right, max] = [0, height.length - 1, 0];
-  while (left < right) {
-    let containerHeight, area;
-    let containerWidth = right - left;
-    
-    if (height[left] < height[right]) {
-      containerHeight = height[left];
-      left++;
+  const res = 0;
+  let l = 0, r = height.length - 1;
+  while (l < r) {
+    const area = (r - l) * Math.min(height[l], height[r]);
+    res = Math.max(res, area);
+    if (height[l] < height[r]) {
+      l++;
     } else {
-      containerHeight = height[right];
-      right--;
+      r--;
     }
-
-    area = containerWidth * containerHeight;
-
-    if (area > max) max = area;
   }
-  return max;
-};
+  return res;
+}
+
 // Time: O(n)
 // Space: O(1)
 

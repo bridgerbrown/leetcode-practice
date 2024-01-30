@@ -206,47 +206,21 @@ Window position                Max
  1  3  -1  -3  5 [3  6  7]      7
 */
 
-function maxSlidingWindow(nums, k) {
-  // Step 1: Initialize two arrays, q for storing indices and 
-  // res for storing results
-  const idx = [];
-  const res = [];
-
-  // Step 2: Iterate through the nums array
-  for (let i = 0; i < nums.length; i++) {
-    // Step 3: Maintain a decreasing order in the q array
-    while(idx.length && nums[idx[idx.length - 1]] <= nums[i]) {
-      idx.pop();
-    }
-    // Push the current index into the q array
-    idx.push(i);
-
-    // Step 4: Remove the leftmost element if it's out of the window
-    if (idx[0] === i - k) {
-      idx.shift();
-    }
-
-    // Step 5: Record the maximum element for each window after reaching 
-    // size k; when the wind is actually present in the array
-    if (i >= k - 1) {
-      res.push(nums[idx[0]]);
-    }
-  }
-
-  // Step 6: Return the array of maximum elements for each window
-  return res;
-}
-
 function slideWinMax(nums, k) {
   const idx = [];
-  const res = [];
-  for (let i = 0; i < nums.length; i++) {
-    while (idx.length && nums[idx[idx.length - 1]] <= nums[i]) {
+  const res = []
+  let l = 0, r = 0;
+  while (r < nums.length - 1) {
+    while (idx.length && nums[idx[idx.length - 1]] < nums[r]) {
       idx.pop();
     }
-    idx.push();
-    if (idx[0] === i - k) idx.shift();
-    if (i >= k - 1) res.push(nums[idx[0]]);
+    idx.push(i);
+    if (l > idx[0]) idx.shift(); // out of bounds from wind
+    if (r - l + 1 === k) {
+      res.push(nums[idx[0]]);
+      l++;
+    }
+    r++;
   }
-  return res;
 }
+// O(n), O(n)
