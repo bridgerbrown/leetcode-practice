@@ -31,7 +31,7 @@ function twoSumII(numbers, target) {
     const isTargetLess = target < sum;
     if (isTargetLess) right--;
   }
-  return [-1, -1];
+   return [-1, -1];
 }
 // Time: O(n)
 // Space: O(1)
@@ -165,3 +165,30 @@ function trap(height) {
 }
 // Time: O(n)
 // Space: O(n)
+
+function trap(height) {
+  if (!height) return 0;
+  let l = 0, r = height.length - 1;
+  let lMax = height[l], rMax = height[r];
+  let res = 0;
+
+  while (l < r) {
+    if (lMax < rMax) {
+      l++;
+      lMax = Math.max(lMax, height[l]);
+      res += lMax - height[l];
+    } else {
+      r--;
+      rMax = Math.max(rMax, height[r]);
+      res += rMax - height[r];
+    }
+  }
+  return res;
+}
+// Time: O(n)
+// Space: O(1)
+// If lMax is less than rMax, it means there is a potential to trap water 
+// between the current position of l and lMax. It increments l, updates lMax, 
+// and adds the difference between lMax and the height at position l to res.
+//
+// It's basically a shortcut for calculating the trap

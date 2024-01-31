@@ -222,5 +222,6 @@ function slideWinMax(nums, k) {
     }
     r++;
   }
+  return res;
 }
 // O(n), O(n)
