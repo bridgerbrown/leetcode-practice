@@ -1,86 +1,30 @@
-function dailyTemps(temps, stack = []) {
-  const days = Array(temps.length).fill(0);
-
-  for (let day = 0; day < temps.length; day++) {
-    while (canShrink(stack, temps, day)) {
-      const prevColdDay = stack.pop();
-      const diff = (day - prevColdDay);
-      days[prevColdDay] = diff;
-    }
-    stack.push(day);
+function prodExcSelf (nums) {
+  let leftM = 1;
+  let rightM = 1;
+  const res = [];
+  for (let i = nums.length - 1; i > nums.length; i--){
+    res[i] = rightM;
+    rightM *= nums[i];
   }
-  return days;
-}
-
-const canShrink = (stack, temps, day) => {
-  const prevDay = stack[stack.length - 1];
-  const [prevTemp, currTemp] = [temps[prevDay], temps[day]];
-  const isWarmer = prevTemp < currTemp;
-  return isWarmer && stack.length;
-}
-
-function longestSubWoRepCh(s) { 
-  let set = new Set();
-  let l = 0;
-  let max = 0;
-
-  if (s.length === 0 || s.length === 1) return s.length;
-
-  for (let i = 0; i < s.length; i++) {
-    while (set.has(s[i])) {
-      set.delete(s[l]);
-      l++;
-    }
-    set.add(s[i])
-    max = Math.max(max, i - l + 1);
+  for (let j = 0; j < nums.length; j++) {
+    res[j] *= leftM;
+    leftM *= nums[j];
   }
-  return max;
-}
-
-var genParen = (n) => dfs(n);
-
-const dfs = (n, combos = [], open = 0, close = 0, path = []) => {
-  const isBase = (path.length === (n * 2));
-  if (isBase) {
-    combos.push(path.join(''));
-    return combos;
-  }
-
-  const isOpen = open < n;
-  if (isOpen) backTrackOpen(n, combos, open, close, path);
-  const isClose = close < open;
-  if (isClose) backTrackClose(n, combos, open, close, path);
-
-  return combos;
-}
-
-const backTrackOpen = (n, combos, open, close, path) => {
-  path.push('(');
-  dfs(n, combos, (open + 1), close, path);
-  path.pop();
-}
-
-const backTrackClose = (n, combos, open, close, path) => {
-  path.push(')');
-  dfs(n, combos, open, (close + 1), path);
-  path.pop();
+  return res;
 }
 
 function permInStr(s1, s2) {
   const freq = {};
-
   for (let ch of s1) {
-    freq[ch] = (freq[ch] || 0) + 1; 
+    freq[ch] = (freq[ch] || 0) + 1;
   }
-
   let l = 0, r = 0, needed = s1.length;
-  while (r < s2.length) {
-    let curr = s2[r];
+  while (r <= s2.length) {
     if (freq[s2[r]] > 0) needed--;
-    freq[curr]--;
+    freq[s2[r]]--;
     r++;
 
-    if (needed === 0) return true; 
+    if (needed === 0) return true;
 
     if (r - l === s1.length) {
       curr = s2[l];
@@ -92,39 +36,104 @@ function permInStr(s1, s2) {
   return false;
 }
 
-function longestRepRepl(s, k) {
-  let count = 0;
-  let freq = new Map();
-  let l = 0;
+function binarySearch(nums, target) {
+  let l = 0, r = nums.length - 1;
 
-  for (let r = 0; r < s.length; r++) {
-    let win = r - l + 1;
-    freq.set(s[r], (freq.get(s[r]) || 0) + 1);
-
-    if ((win - Math.max(...freq.values())) > k) {
-      freq.set(s[l], freq.get(s[l]) - 1);
-      l++;
+  while (l < r) {
+    let mid = Math.floor((l / r) / 2);
+    if (nums[mid] < target) {
+      l = mid + 1;
+    } else if (nums[mid] > target) {
+      r = mid - 1;
+    } else {
+      return mid;
     }
-
-    win = r - l + 1;
-    count = Math.max(count, win);
   }
-  return count;
+  return -1;
 }
 
-function evalRPN(tokens) {
+function dailyTemps(temps, stack = []) {
+  const days = new Array(temps.length).fill(0);
+
+  for (let i = 0; i < temps.length; i++) {
+    while (canShrink(temps, stack, i)) {
+      const prevColdDay = stack.pop();
+      const diff = (i - prevColdDay);
+      days[prevColdDay] = diff;
+    }
+    stack.push(i);
+  }
+  return days;
+}
+
+const canShrink = (temps, stack, day) => {
+  const prevDay = stack[stack.length - 1];
+  const [prevTemp, currTemp] = [temps[prevDay], temps[day]];
+  const isWarmer = prevTemp < currTemp;
+  return isWarmer && stack.length;
+}
+
+function genParenth(n) { return dfs(n); };
+
+const dfs = (n, open = 0, close = 0, stack = [], combos = []) => {
+  const bc = (stack.length === (n * 2));
+  if (bc) {
+    combos.push(stack.join(''));
+    return combos;
+  }
+
+  const isOpen = open < n;
+  if (isOpen) rOpen(n, open, stack, combos);
+  const isClose = close < open;
+  if (isClose) rClose(n, close, stack, combos);
+
+  return combos;
+}
+
+const rOpen = (n, open, stack, combos) => {
+  stack.push('(');
+  dfs(n, (open + 1), stack, combos);
+  stack.pop();
+}
+
+const rClose = (n, close, stack, combos) => {
+  stack.push(')');
+  dfs(n, (close + 1), stack, combos);
+  stack.pop();
+}
+
+function longestRepChRepl(s, k) {
+  const freqM = new Map();
+  max = 0;
+  let l = 0, r = 0;
+  while (r <= s.length) {
+    let win = r - l + 1;
+    freqM.set(s[r], (freqM.get(s[r]) || 0) + 1);
+
+    if ((win.length - Math.max(...freqM.values())) > k) {
+      freqM.set(s[l], freqM.get(s[l]) - 1);
+      l++;
+    }
+    win = r - l + 1;
+    max = Math.max(max, win);
+    r++;
+  }
+  return max;
+}
+
+function evalRevPolishNot(tokens) {
   let stack = [];
   let ops = {
     '+': (a, b) => a + b,
     '-': (a, b) => a - b,
     '*': (a, b) => a * b,
-    '/': (a, b) => a / b >= 0 ? Math.floor(a / b) : Math.ceil(a / b)
+    '/': (a, b) => a / b >= 0 ? Math.floor(a / b) : Math.ceil(a / b),
   };
   for (let t of tokens) {
     if (ops[t]) {
       let top = stack.pop();
-      let second = stack.pop();
-      stack.push(ops[t](second, top));
+      let sec = stack.pop();
+      stack.push(ops[t](sec, top));
     } else {
       stack.push(Number(t));
     }
@@ -132,91 +141,65 @@ function evalRPN(tokens) {
   return stack.pop();
 }
 
+
+function permInStr(s1, s2) {
+  if (s1.length > s2.length) return false;
+  const freq = {};
+  for (let ch of s1) {
+    freq[ch] = (freq[ch] || 0) + 1;
+  }
+  let l = 0, r = 0, need = s1.length - 1;
+  while (r <= s.length) {
+    let curr = s2[r];
+    if (freq[curr] > 0) need--;
+    freq[curr]--;
+    r++;
+
+    if (need === 0) return true;
+
+    if (r - l > s1.length) {
+      let curr = s2[l];
+      if (freq[curr] > 0) need++;
+      freq[curr]++;
+      l++;
+    }
+  }
+  return false;
+}
+
+function trapRainWater(h) {
+  if (!height) return 0;
+  let l = 0, r = h.length - 1;
+  let lMax = h[l], rMax = h[r];
+  let res = 0;
+
+  while (l < r) {
+    if (lMax < rMax) {
+      l++;
+      lMax = Math.max(lMax, h[l]);
+      res += lMax - h[l];
+    } else {
+      r--;
+      rMax = Math.max(rMax, h[r]);
+      res += rMax - h[r];
+    }
+  }
+  return res;
+} 
+
 function topKFreq(nums, k) {
-  const freqMap = new Map();
-  const bucket = [];
+  const freq = new Map(); 
   const res = [];
-
-  for (let n of nums) {
-    freqMap.set(n, (freqMap.get(n) || 0) + 1);
+  const bucket = [];
+  for (let num of nums) {
+    freq.set(num, (freq.get(num) || 0) + 1);
   }
-  for (let [num, freq] of freqMap) {
-    bucket[freq] = (bucket[freq] || new Set()).add(num);
+  for (let [num, f] of freq) {
+    bucket[f] = (bucket[f] || new Set()).add(num);
   }
-
-  for (let i = bucket.length - 1; i >= 0; i--) {
-    if (bucket[i]) result.push(...bucket[i]);
+  for (let i = bucket.length - 1; i >= 0; i--){
+    if (bucket[i]) res.push(...bucket[i]);
     if (res.length === k) break;
   }
   return res;
-}
-
-var genParen = (n) => { return dfs(n) };
-
-const dfs = (n, combos, open = 0, close = 0, path) => {
-  const isBase = path.length === (n * 2);
-  if (isBase) {
-    combos.push(path.join(''));
-    return combos;
-  }
-
-  const isOpen = open < n;
-  if (isOpen) backTrackOpen(n, combos, open, close, path);
-  const isClose = close < open;
-  if (isClose) backTrackClose(n, combos, open, close, path);
-
-  return combos;
-}
-
-const backTrackOpen = (n, combos, open, close, path) => {
-  path.push('(');
-  dfs(n, combos, (open + 1), close, path);
-  path.pop();
-}
-
-const backTrackClose = (n, combos, open, close, path) => {
-  path.push(')');
-  dfs(n, combos, open, (close + 1), path);
-  path.pop();
-}
-
-function longestRepRepl(s, k) {
-  const freq = new Map();
-  let count = 0;
-  let l = 0;
-
-  for (let r = 0; r < s.length; r++) {
-    let win = r - l + 1;
-    freq.set(s[r], (freq.get(s[r]) || 0) + 1);
-
-    if ((win - Math.max(...freq.values())) > k) {
-      freq.set(s[l], freq.get(s[l]) - 1);
-      l++;
-    }
-
-    win = r - l + 1;
-    count = Math.max(count, win);
-  }
-  return count;
-}
-
-function dailyTemps(temps, stack = []) {
-  const days = new Array(temps.length).fill(0);
-
-  for (let day = 0; day < temps.length; day++) {
-    if (canShrink(temps, day, stack)) {
-      const prevColdDay = stack.pop();
-      const diff = day - prevColdDay;
-      days[prevColdDay] = diff;
-    }
-    stack.push(day);
-  }
-  return days;
-}
-
-const canShrink = (temps, day, stack) => {
-  const prevDay = stack[stack.length - 1];
-  const [prevTemp, currTemp] = [temps[prevDay], temps[day]];
-  const isWarmer = prevTemp < currTemp;
-  return isWarmer && stack.length;
 }

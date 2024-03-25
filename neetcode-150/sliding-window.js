@@ -51,7 +51,7 @@ Explanation: Replace the two 'A's with two 'B's or vice versa.
 
 function longestRepeatingReplacement(s, k) {
   let count = 0;
-  let freq = new Map();
+  let freqM = new Map();
   let l = 0;
 
   // Iterate over the string using the right pointer
@@ -59,14 +59,14 @@ function longestRepeatingReplacement(s, k) {
     // Calculate the length of the current window
     let win = r - l + 1;
     // Update the count of the character at the right pointer
-    freq.set(s[r], (freq.get(s[r]) || 0) + 1);
+    freqM.set(s[r], (freqM.get(s[r]) || 0) + 1);
 
     // win - max char will remain with the other chars in the window,
     // so if the amount of those is bigger than k, you have to shrink
     // it, utilizing subtraction of the window with leftover freq
-    if ((win - Math.max(...freq.values())) > k) {
+    if ((win - Math.max(...freqM.values())) > k) {
       // Move the left pointer to shrink the window
-      freq.set(s[l], freq.get(s[l]) - 1);
+      freqM.set(s[l], freqM.get(s[l]) - 1);
       l++;
     }
 
