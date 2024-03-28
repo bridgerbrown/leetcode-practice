@@ -1,58 +1,9 @@
-function topKFreq(nums) {
-  const res = [];
-  const bucket = [];
-  const freq = new Map();
-  for (let n of nums) {
-    freq.set(n, (freq.get(n) || 0) + 1);
-  }
-  for (let [n, f] of freq) {
-    bucket[f] = (bucket[f] || new Set()).add(n);
-  }
-  for (let i = bucket.length - 1; i >= 0; i--) {
-    if (bucket[i]) res.push(...bucket[i]);
-    if (res.length === k) break;
-  }
-  return res;
-}
-
-function longestRepChRepl(s, k) {
-  const freqM = new Map();
-  let max = 0;
-  let l = 0, r = 0;
-  while (r < s.length) {
-    let win = r - l + 1;
-    freqM.set(s[r], (freqM.get(s[r]) || 0) + 1);
-    if ((win - Math.max(...freqM.values())) - k) {
-      freqM.set(s[l], freqM.get(s[l]) - 1);
-      l++;
-    }
-    win = r - l + 1;
-    max = Math.max(max, win);
-  }
-  return max;
-}
-
-function rpn (tokens) {
-  const stack = [];
-  const eval = {...}
-  for (let t of tokens) {
-    if (eval[t]) {
-      let top = stack.pop();
-      let sec = stack.pop();
-      stack.push(eval[t](sec, top));
-    } else {
-      stack.push(Number(t));
-    }
-  }
-  return stack.pop();
-}
-
-function bs(nums, target) {
-  const count = 0;
+function binarySearch(nums, target) {
   let l = 0, r = nums.length - 1;
-  while (l < r) {
+  while (l <= r) {
     let mid = Math.floor((l / r) / 2);
-    if (mid < target) {
+    let curr = nums[mid];
+    if (curr < target) {
       l = mid + 1;
     } else if (mid > target) {
       r = mid - 1;
@@ -63,80 +14,54 @@ function bs(nums, target) {
   return -1;
 }
 
-function prodExceptSelf(nums) {
-  let leftM = 1, rightM = 1;
-  let res = [];
-  for (let i = nums.length - 1; i > 0; i--) {
-    res[i] = rightM;
-    rightM *= nums[i];
+function twoSumII(nums, target) {
+  let l = 0, r = nums.length - 1;
+  while (l <= r) {
+    const sum = nums[l] + nums[r];
+    if (sum < target) {
+      l++;
+    } else if (sum > target) {
+      r--;
+    } else {
+      return [l + 1, r + 1];
+    }
   }
-  for (let j = 0; j < nums.length; j++) {
-    res[j] *= leftM;
-    leftM *= nums[j];
-  }
-  return res;
+  return [-1, -1];
 }
 
-function trapRain(h) {
+function trapRainWater(h) {
   let l = 0, r = h.length - 1;
-  let lMax = height[l], rMax = height[r];
-  let res = 0;
-  while (l < r) {
-    if (lMax < rMax) {
+  let lMax = 0, rMax = 0;
+  let max = 0;
+
+  while (l <= r) {
+    if (h[l] < h[r]) {
       l++;
-      lMax = Math.max(lMax, height[l]);
-      res += lMax - height[l];
+      lMax = Math.max(h[l], lMax);
+      max += lMax - h[l];
     } else {
       r--;
-      rMax = Math.max(rMax, height[r]);
-      res += rMax - height[r];
+      rMax = Math.max(h[r], rMax);
+      max += rMax - h[r];
     }
-  }
-  return res;
-}
-
-function longestSubWoRepC(s) {
-  const freq = new Set();
-  let l = 0, r = 0, max = 0;
-  while (r <= s.length) {
-    while (set.has(s[r])) {
-      set.delete(s[l]);
-      l++;
-    }
-    set.add(s[r]);
-    max = Math.max(max, r - l + 1);
-    r++;
   }
   return max;
 }
 
 function longestConsSeq(nums) {
-  const set = new Set(nums);
-  let max = 0;
-  for (let n of set) {
-    if (set.has(n - 1)) continue;  
-    let currNum = n, currMax = 1;
-    while (set.has(currNum + 1)) {
-      currNum++, currMax++;
-    }
-    max = Math.max(max, currMax);
-  }
-  return max;
-}
+  let set = new Set(nums);
+  let count = 0;
 
-function evalRpn(tokens) {
-  const stack = [];
-  const eval = {...};
-  for (let t of tokens) {
-    if (eval[t]) {
-      let top = stack.pop();
-      let sec = stack.pop();
-      stack.push(eval[t](sec, top));
-    } else {
-      stack.push(Number(t));
+  for (let num of set) {
+    if (set.has(num - 1)) continue;
+    let currNum = num, currMax = 1;
+    while (set.has(currNum + 1)) {
+      currMax++;
+      currNum++;
     }
+    count = Math.max(count, currMax);
   }
-  return stack.pop();
+  return count;
 }
 
 function threeSum(nums) {
@@ -147,22 +72,216 @@ function threeSum(nums) {
     if (a > 0) break;
     if (i > 0 && a === nums[i - 1]) continue;
 
-    let l = i + 1;
-    let r = nums.length - 1;
+    let l = i + 1, r = nums.length - 1;
     while (l < r) {
-      const three = a + nums[l] + nums[r];
-      if (three > 0) {
-        r--; 
-      } else if (three < 0) {
+      let sum = nums[i] + nums[r] + nums[l];
+      if (sum < 0) {
         l++;
+      } else if (sum > 0) {
+        r--;
+      } else {
+        res.push([nums[i], nums[r], nums[l]]);
+        l++, r--;
+        while (nums[l] === nums[l - 1] && l < r) {
+          l++;
+        }      
+      }
+    }
+  }
+  return res;
+}
+
+function threeSum(nums) {
+  const res = [];
+  nums.sort((a, b) => a - b);  
+  for (let i = 0; i < nums.length; i++) {
+    const a = nums[i];
+    if (a > 0) break;
+    if (i > 0 && a === nums[i - 1]) continue;
+    let l = i + 1, r = nums.length - 1;
+    while (l < r) {
+      const sum = a + nums[l] + nums[r];
+      if (sum < 0) {
+        l++;
+      } else if (sum > 0) {
+        r--;
       } else {
         res.push([a, nums[l], nums[r]]);
         l++, r--;
-        while (nums[l] === nums[l - 1] && l < r) {
+        while (nums[l + 1] === nums[l] && l < r) {
           l++;
         }
       }
     }
+  }
+  return res;
+}
+
+function longestConsSeq(nums) {
+  let set = new Set(nums);
+  let max = 0;
+  for (let num of nums) {
+    if (set.has(num - 1)) continue;
+    let currnum = num, currmax = 1;
+    while (set.has(currnum + 1)) {
+      currnum++, currmax++;
+    }
+    max = Math.max(currmax, max);
+  }
+  return max;
+}
+
+function productExceptSelf(nums) {
+  let res = [];
+  let lM = 1, rM = 1;
+  for (let i = nums.length - 1; i >= 0; i--) {
+    res[i] = rM;
+    rM *= nums[i];
+  }
+  for (let j = 0; j < nums.length; j++) {
+    res[j] *= lM;
+    lM *= nums[j];
+  }
+  return res;
+}
+
+function trapRainWater(h) {
+  let l = 0, r = h.length - 1;
+  let lMax = 0, rMax = 0;
+  let max = 0;
+  while (l < r){
+    if (h[l] < h[r]) {
+      l++;
+      lMax = Math.max(h[l], lMax);
+      max += lMax - h[l];
+    } else {
+      r--;
+      rMax = Math.max(h[r], rMax);
+      max += rMax - h[r];
+    }
+  }
+  return max;
+}
+
+function containerMostWater(h) {
+  const res = 0;
+  let l = 0, r = h.length - 1;
+  while (l < r) {
+    const area = (r - l) * Math.min(h[l], h[r]);
+    res = Math.max(res, area);
+    if (h[l] < h[r]) {
+      l++;
+    } else {
+      r--;
+    }
+  }
+  return res;
+}
+
+function trapRainWater(h) {
+  let l = 0, r = h.length - 1;
+  let lm = 1, rm = 1;
+  let max = 0;
+  while (l < r) {
+    if (h[l] < h[r]) {
+      l++;
+      lm = Math.max(lm, l);
+      max += lm - h[l];
+    } else {
+      r--;
+      rm = Math.max(rm, r);
+      max += rm - h[r];
+    }
+  }
+  return max;
+}
+
+function minWindSub(s, t) {
+  let min = "";
+  const freq = {};
+  t = t.split('');
+  for (let ch of t) {
+    freq[ch] = (freq[ch] || 0) + 1;
+  }
+  let l = 0, r = 0, unique = Object.keys(freq).length;
+  while (r < s.length) {
+    if (unique === 0) {
+      let curr = s[l];
+      if (freq[curr] !== undefined) freq[curr]++;
+      if (freq[curr] > 0) unique++;
+
+      let temp = s.substring(l, r + 1);
+      min = (min === "" || min.length < temp.length) ? min : temp;
+      l++;
+    } else {
+      r++;
+      let curr = s[r];
+      if (freq[curr] !== undefined) freq[curr]--;
+      if (freq[curr] === 0) unique--;
+    }
+  }
+  return min;
+}
+
+function containerMostWater(h) {
+  let l = 0, r = h.length - 1;
+  let max = 0;
+  while (l < r) {
+    let square = (r - l) * Math.min(h[l], h[r]);
+    let max = Math.max(square, max);
+    if (h[l] < h[r]) {
+      l++;
+    } else {
+      r--;
+    }
+  }
+  return max;
+}
+
+function genParenth(n) { return dfs(n) };
+
+function dfs(n, combos = [], stack = [], open = 0, close = 0) {
+  if (stack.length === (n * 2)) {
+    stack.join('');
+    combos.push(stack);
+    return combos;
+  }
+
+  const isOpen = open < n;
+  if (isOpen) btOpen(n, combos, stack, open, close);
+  const isClose = close < open;
+  if (isClose) btClose (n, combos, stack, open, close);
+
+  return combos;
+}
+
+const btOpen = (n , combos, stack, open, close) => {
+  stack.push('(');
+  dfs(n, combos, stack, (open + 1), close);
+  stack.pop();
+}
+
+const btClose = (n , combos, stack, open, close) => {
+  stack.push(')');
+  dfs(n, combos, stack, open, (close + 1));
+  stack.pop();
+}
+
+function slideWinMax(nums, k) {
+  const idx = [];
+  const res = [];
+  let l = 0, r = 0;
+  while (r < nums.length - 1) {
+    while (idx.length && nums[idx[idx.length - 1]] < nums[r]) {
+      idx.pop();
+    }
+    idx.push(r);
+    if (l > idx[0]) idx.shift();
+    if (r - l + 1 === k) {
+      res.push(nums[idx[0]]);
+      l++;
+    }
+    r++;
   }
   return res;
 }

@@ -214,7 +214,7 @@ function slideWinMax(nums, k) {
     while (idx.length && nums[idx[idx.length - 1]] < nums[r]) {
       idx.pop();
     }
-    idx.push(i);
+    idx.push(r);
     if (l > idx[0]) idx.shift(); // out of bounds from wind
     if (r - l + 1 === k) {
       res.push(nums[idx[0]]);

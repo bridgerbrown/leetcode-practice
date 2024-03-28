@@ -17,21 +17,19 @@ Output: [1,2]
 Explanation: The sum of 2 and 7 is 9. Therefore, index1 = 1, index2 = 2. We return [1, 2].
 */
 
-function twoSumII(numbers, target) {
-  let [left, right] = [0, numbers.length - 1];
-  while (left < right) {
-    const sum = numbers[left] + numbers[right];
-
-    const isTarget = sum === target;
-    if (isTarget) return [left + 1, right + 1];
-
-    const isTargetGreater = sum < target;
-    if (isTargetGreater) left++;
-
-    const isTargetLess = target < sum;
-    if (isTargetLess) right--;
+function twoSumII(nums, target) {
+  let [l, r] = [0, nums.length - 1];
+  while (l < r) {
+    const sum = nums[l] + nums[r];
+    if (sum < target) {
+      l++;
+    } else if (sum > target) {
+      r--;
+    } else {
+      return [l + 1, r + 1];
+    }
   }
-   return [-1, -1];
+  return [-1, -1];
 }
 // Time: O(n)
 // Space: O(1)
