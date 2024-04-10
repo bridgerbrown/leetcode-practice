@@ -78,3 +78,75 @@ function searchMatrix(matrix, target) {
   }
   return false;
 }
+
+/*
+#3: Koko Eating Bananas
+Koko loves to eat bananas. There are n piles of bananas, the ith pile has piles[i] bananas. 
+The guards have gone and will come back in h hours.
+
+Koko can decide her bananas-per-hour eating speed of k. Each hour, she chooses some pile 
+of bananas and eats k bananas from that pile. If the pile has less than k bananas,
+she eats all of them instead and will not eat any more bananas during this hour.
+
+Koko likes to eat slowly but still wants to finish eating all the bananas before the guards return.
+
+Return the minimum integer k such that she can eat all the bananas within h hours.
+
+Example 1:
+
+Input: piles = [3,6,7,11], h = 8
+Output: 4
+*/
+
+function minEatingSpeed(piles, h) {
+  let [l, r] = [1, Math.max(...piles)];
+  while (l < r) {
+    const mid = (l + r) / 2;
+    const hSpent = 0;
+    for (const pile of piles) {
+      hSpent += Math.ceil(pile / mid);
+    }
+    if (h < hSpent) l = mid + 1;
+    if (h >= hSpent) r = mid;
+  }
+
+  return r;
+}
+// Time O(N * log(M)) | Space O(1)
+
+/*
+#4: Find Minimum in Rotated Sorted Array
+
+Suppose an array of length n sorted in ascending order is rotated between 1 and n times. For example, the array nums = [0,1,2,4,5,6,7] might become:
+
+[4,5,6,7,0,1,2] if it was rotated 4 times.
+[0,1,2,4,5,6,7] if it was rotated 7 times.
+Notice that rotating an array [a[0], a[1], a[2], ..., a[n-1]] 1 time results in the array [a[n-1], a[0], a[1], a[2], ..., a[n-2]].
+
+Given the sorted rotated array nums of unique elements, return the minimum element of this array.
+
+You must write an algorithm that runs in O(log n) time.
+
+Example 1:
+
+Input: nums = [3,4,5,1,2]
+Output: 1
+Explanation: The original array was [1,2,3,4,5] rotated 3 times.
+*/
+
+function findMin(nums) {
+  let [l, r] = [0, nums.length - 1];
+  
+  while (l < r) {
+    const mid = Math.floor((l + r) / 2);
+    
+    if (nums[l] < nums[r]) { // special case if arr is not rotated, skipping all other logic
+      return nums[l];
+    } else if (nums[l] <= nums[mid]) {
+      l = mid + 1;
+    } else if (nums[mid] < nums[l]) {
+      r = mid;
+    }
+  }
+  return nums[l];
+}
